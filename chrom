@@ -1,0 +1,6 @@
+
+
+  chromium-browser http://localhost:8080/base 2>/dev/null & 
+
+#  chromium-browser http://localhost:8080/testing 2>/dev/null & 
+
