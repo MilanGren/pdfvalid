@@ -1,0 +1,35 @@
+
+
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+        <div>
+                <form method="POST" enctype="multipart/form-data" action="/pdf">
+                        <table>
+
+         <input type="radio" name="level" value="1a">1a
+
+         <input type="radio" name="level" value="1b">1b
+         
+         <input type="radio" name="level" value="2a">2a
+         
+         <input type="radio" name="level" value="2b" checked>2b
+        
+                                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                                <tr><td></td><td><input type="submit" value="Validate" /></td></tr>
+
+                        </table>
+                </form>
+        </div>
+
+    <h4>Result</h4>
+
+
+    <form action="#" th:object="${result}" method="post">
+            <p>Is the given pdf valid?: <label th:text="*{value}" /> </p>
+    </form>
+
+
+
+</body>
+</html>
