@@ -1,13 +1,19 @@
 
 
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.isfgroup.cz">
+
 <body>
 
-        <div>
-                <form method="POST" enctype="multipart/form-data" action="/pdf">
-<tr><tc>Validation Profile:
-                        <table>
 
+
+
+        <div>
+        
+<h2>PDF validation using VERA</h2>
+
+                <form method="POST" enctype="multipart/form-data" action="/pdf">
+<p>
+Validation Profile:
 
          <input type="radio" name="level" value="1a">1a
 
@@ -16,11 +22,15 @@
          <input type="radio" name="level" value="2a">2a
          
          <input type="radio" name="level" value="2b" checked>2b
-        
+</p>
+<p>
+
+                        <table>
                                 <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
                                 <tr><td></td><td><input type="submit" value="Validate" /></td></tr>
-
-                        </table></td></tr>
+                        </table>
+                        
+</p>                        
                 </form>
         </div>
 
@@ -29,8 +39,8 @@
 
     <form action="#" th:object="${result}" method="post">
 
-    <h4> PDF/A Validation Results</h4>             
-            <p>PDF/A compliance: <label th:text="*{value}" /> </p>
+    <p> PDF/A Validation Results (PDF/A Compliance): <label th:text="*{value}" /></p> 
+
     </form>
 
 
