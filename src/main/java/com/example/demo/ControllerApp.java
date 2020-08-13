@@ -23,6 +23,11 @@ import org.springframework.util.StringUtils;
 import com.example.demo.PDFValidator ; // interface
 import com.example.demo.Result ; // wrapping result
 
+// pryc
+import com.example.demo.service.PDFValidatorVERA ;
+import java.io.FileInputStream ;
+import java.nio.file.Paths ;
+
 @Controller
 @RequestMapping("/")
 public class ControllerApp {
@@ -35,8 +40,25 @@ public class ControllerApp {
   }
 
   @GetMapping("/pdf")
-  public String fileUploadForm(Model model) {
+  public String fileUploadForm(Model model) 
+
+  throws java.io.FileNotFoundException,
+                                                                                  org.verapdf.core.ModelParsingException,
+                                                                                  java.io.IOException,
+                                                                                  org.verapdf.core.EncryptedPdfException,
+                                                                                  org.verapdf.core.ValidationException
+
+  
+  {
     model.addAttribute("result", new Result(false)); // toto asi jde napsat pridat rovnou do html
+    
+
+        PDFValidator validator = new PDFValidatorVERA() ;    
+       
+        validator.validate(new FileInputStream(Paths.get("src","test","resources","validpdf_A-2b.pdf").toFile().getAbsolutePath()),"1b") ;
+
+
+    
     return "htmlupload" ; 
   }    
 
@@ -52,7 +74,7 @@ public class ControllerApp {
 
     String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
-    boolean isvalid = pdfvalidator.validateM(file.getInputStream(),level) ; 
+    boolean isvalid = pdfvalidator.validate(file.getInputStream(),level) ; 
     
     model.addAttribute("result", new Result(isvalid));
 

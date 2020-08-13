@@ -6,6 +6,7 @@
         <div>
                 <form method="POST" enctype="multipart/form-data" action="/pdf">
                         <table>
+<tr>Validation Profile:</tr>
 
          <input type="radio" name="level" value="1a">1a
 
@@ -22,11 +23,13 @@
                 </form>
         </div>
 
-    <h4>Result</h4>
+
 
 
     <form action="#" th:object="${result}" method="post">
-            <p>Is the given pdf valid?: <label th:text="*{value}" /> </p>
+
+    <h4> PDF/A Validation Results</h4>             
+            <p>PDF/A compliance: <label th:text="*{value}" /> </p>
     </form>
 
 

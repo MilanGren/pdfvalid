@@ -2,11 +2,11 @@
 package com.example.demo ;
 
 public class Result {
-      private String value = "NO" ;
+      private String value = "Failed" ;
       public Result(boolean isvalid){
       
             if (isvalid) {
-                  value = "YES" ;
+                  value = "Passed" ;
             }
       
       }

@@ -1,11 +1,6 @@
 LOG ven, nejaky spring logger pouzit
 
-vyresit public private
-
 zredukovat throws v PDFValidator/validate(..)
 
 vyresit defaultni new Result(false) v prvotnim GET
 
-vyresit logy (je to asi kvuli nekonzistenci E trid)
-2020-08-12 12:44:37.786 ERROR 14855 --- [nio-8080-exec-3] org.apache.pdfbox.pdfparser.COSParser    : java.io.IOException: Object must be defined and must not be compressed object: 19:0
-2020-08-12 12:44:37.787 ERROR 14855 --- [nio-8080-exec-3] org.apache.pdfbox.pdfparser.COSParser    : java.io.IOException: Object must be defined and must not be compressed object: 20:0
