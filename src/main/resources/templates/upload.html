@@ -9,10 +9,10 @@
 
         <div>
         
-<h2>PDF validation using VERA</h2>
+<h2 style="margin-left: 15px">PDF validation using VERA</h2>
 
                 <form method="POST" enctype="multipart/form-data" action="/pdf">
-<p>
+<p style="margin-left: 15px">
 Validation Profile:
 
          <input type="radio" name="level" value="1a">1a
@@ -23,7 +23,7 @@ Validation Profile:
          
          <input type="radio" name="level" value="2b" checked>2b
 </p>
-<p>
+<p style="margin-left: 12px">
 
                         <table>
                                 <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
@@ -39,7 +39,7 @@ Validation Profile:
 
     <form action="#" th:object="${result}" method="post">
 
-    <p> PDF/A Validation Results (PDF/A Compliance): <label th:text="*{value}" /></p> 
+    <p style="margin-left: 15px">PDF/A Validation Results (PDF/A Compliance): <b><label th:text="*{value}"/></b> </p> 
 
     </form>
 

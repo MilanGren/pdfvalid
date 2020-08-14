@@ -1,6 +1,0 @@
-LOG ven, nejaky spring logger pouzit
-
-zredukovat throws v PDFValidator/validate(..)
-
-vyresit defaultni new Result(false) v prvotnim GET
-

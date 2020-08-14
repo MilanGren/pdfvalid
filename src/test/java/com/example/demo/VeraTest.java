@@ -56,7 +56,12 @@ public class VeraTest {
     }
 
 
-/*    @Test
+/*
+
+podle https://www.pdf-online.com/osa/validate.aspx prochazi jako 1b
+podle https://www.pdfen.com/pdf-a-validator prochazi jako 1b
+podle VERA online https://demo.verapdf.org/ neprochazi jako 1b
+    @Test
     public void TEST_4() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
 
         PDFValidator validator = new PDFValidatorVERA() ;
