@@ -11,8 +11,15 @@ import org.verapdf.pdfa.PDFAValidator;
 import org.verapdf.pdfa.flavours.PDFAFlavour;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException ;
+import org.verapdf.core.ModelParsingException ;
+import java.io.IOException ;
+import org.verapdf.core.EncryptedPdfException ;
+import org.verapdf.core.ValidationException ;
+
 import com.example.demo.PDFValidator ;
 
+import com.example.demo.PdfValidationException ;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {
@@ -21,23 +28,27 @@ public class PDFValidatorVERA implements PDFValidator {
         System.out.println(t) ;
     }
     
-    public boolean validate(InputStream istream, String flavourStr) throws java.io.FileNotFoundException, 
-                                                                           org.verapdf.core.ModelParsingException, 
-                                                                           java.io.IOException, 
-                                                                           org.verapdf.core.EncryptedPdfException, 
-                                                                           org.verapdf.core.ValidationException {
-
-        VeraGreenfieldFoundryProvider.initialise();
+    public boolean validate(InputStream istream, String flavourStr) throws PdfValidationException {
     
-        PDFAFlavour flavour = PDFAFlavour.fromString(flavourStr);
+        try {
+            VeraGreenfieldFoundryProvider.initialise();
+    
+            PDFAFlavour flavour = PDFAFlavour.fromString(flavourStr);
 
-        PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
+            PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
 
-        PDFAParser parser = Foundries.defaultInstance().createParser(istream,flavour) ;
+            PDFAParser parser = Foundries.defaultInstance().createParser(istream,flavour) ;
 
-        ValidationResult result = validator.validate(parser);
+            ValidationResult result = validator.validate(parser);
+        
+            return result.isCompliant() ;
+//        } catch (IOException | FileNotFoundException | ModelParsingException | EncryptedPdfException | ValidationException e) {
+
+        } catch (Exception e) {
+            throw new PdfValidationException("pdf validation error");
+        }
      
-        return result.isCompliant() ;
+
 
     }
 

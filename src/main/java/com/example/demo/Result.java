@@ -3,16 +3,19 @@ package com.example.demo ;
 
 public class Result {
       private String value = "Failed" ;
-      public Result(boolean isvalid){
-      
+      private String level ;
+      private String filename ;
+
+      public Result(boolean isvalid, String level, String filename){
             if (isvalid) {
                   value = "Passed" ;
             }
-      
+            this.level = level ;
+            this.filename = filename ;
       }
       
-      
-      public void setStartingValue(String value) {this.value = value ;}
-      
       public String getValue() {return value ;}
+      public String getLevel() {return level ;}
+      public String getFilename() {return filename ;}
+      
 }

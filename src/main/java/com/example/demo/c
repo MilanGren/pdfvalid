@@ -1,0 +1,8 @@
+
+ curl -v -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/post
+
+# curl -v -X POST -F file=@/home/gre/java/maven/pdfvalid/src/main/java/com/example/demo/c -F level="1b" http://localhost:8080/post
+
+#curl -X GET -F file=milan http://localhost:8080/post
+
+#curl -v -X POST  http://localhost:8080/post
