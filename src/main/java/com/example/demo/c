@@ -1,8 +1,0 @@
-
-# curl -v -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/post
-
-
-# curl -v -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/post  # wrong suffix but works
-
-
- curl -v -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/text_file.txt -F level="1b" http://localhost:8080/post  # not pdf fi
