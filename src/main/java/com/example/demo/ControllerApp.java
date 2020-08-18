@@ -33,7 +33,7 @@ import org.slf4j.event.Level;
 // this project
 import com.example.demo.PDFValidator ; // interface
 import com.example.demo.Result ; // wrapping result
-import com.example.demo.PdfValidationException ;
+import com.example.demo.PDFValidationException ;
 
 @RestController
 @RequestMapping("/")
@@ -44,6 +44,13 @@ public class ControllerApp {
   @Autowired
   private PDFValidator pdfvalidator ;
 
+  @ExceptionHandler(PDFValidationException.class)
+  public PDFValidationException error(PDFValidationException e) {
+    log.error(e.getMessage(),e) ;
+    return e ;
+  }
+
+
   @ExceptionHandler(Exception.class)
   public Exception error(Exception e) {
     log.error(e.getMessage(),e) ;
@@ -51,7 +58,7 @@ public class ControllerApp {
   }
   
   @PostMapping("/post")
-  public Result post(@RequestParam("file") MultipartFile file, @RequestParam("level") String level) throws PdfValidationException, IOException {
+  public Result post(@RequestParam("file") MultipartFile file, @RequestParam("level") String level) throws PDFValidationException, IOException {
 
     String filename = file.getOriginalFilename() ;
 

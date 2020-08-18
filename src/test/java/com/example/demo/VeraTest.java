@@ -6,6 +6,7 @@ import com.example.demo.service.PDFValidatorVERA ;
 import java.io.FileInputStream ;
 import java.nio.file.Path ;
 import java.nio.file.Paths ;
+import java.io.FileNotFoundException ;
 
 import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
 import org.verapdf.pdfa.Foundries;
@@ -20,14 +21,12 @@ import org.junit.Test;
 
 public class VeraTest {
 
-
-
     public static <T> void LOG(T t)  {
         System.out.println(t) ;
     }
     
     @Test
-    public void TEST_1() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_1() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
@@ -36,7 +35,7 @@ public class VeraTest {
     }
     
     @Test
-    public void TEST_2() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_2() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
@@ -47,7 +46,7 @@ public class VeraTest {
 
 
     @Test
-    public void TEST_3() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_3() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         

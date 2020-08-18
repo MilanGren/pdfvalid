@@ -20,14 +20,12 @@ import org.junit.Test;
 
 public class VeraTest {
 
-
-
     public static <T> void LOG(T t)  {
         System.out.println(t) ;
     }
     
     @Test
-    public void TEST_1() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_1() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
@@ -36,7 +34,7 @@ public class VeraTest {
     }
     
     @Test
-    public void TEST_2() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_2() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
@@ -47,7 +45,7 @@ public class VeraTest {
 
 
     @Test
-    public void TEST_3() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_3() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
@@ -56,7 +54,12 @@ public class VeraTest {
     }
 
 
-/*    @Test
+/*
+
+podle https://www.pdf-online.com/osa/validate.aspx prochazi jako 1b
+podle https://www.pdfen.com/pdf-a-validator prochazi jako 1b
+podle VERA online https://demo.verapdf.org/ neprochazi jako 1b
+    @Test
     public void TEST_4() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
 
         PDFValidator validator = new PDFValidatorVERA() ;

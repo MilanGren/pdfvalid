@@ -19,12 +19,12 @@ import org.verapdf.core.ValidationException ;
 
 import com.example.demo.PDFValidator ;
 
-import com.example.demo.PdfValidationException ;
+import com.example.demo.PDFValidationException ;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {
 
-    public boolean validate(InputStream istream, String flavourStr) throws PdfValidationException {
+    public boolean validate(InputStream istream, String flavourStr) throws PDFValidationException {
     
         try {
             VeraGreenfieldFoundryProvider.initialise();
@@ -38,10 +38,9 @@ public class PDFValidatorVERA implements PDFValidator {
             ValidationResult result = validator.validate(parser);
         
             return result.isCompliant() ;
-//        } catch (IOException | FileNotFoundException | ModelParsingException | EncryptedPdfException | ValidationException e) {
-
-        } catch (Exception e) {
-            throw new PdfValidationException("pdf validation error");
+            
+        } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
+            throw new PDFValidationException("pdf validation error (is it realy a pdf file?)");
         }
      
 
