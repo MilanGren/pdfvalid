@@ -24,10 +24,6 @@ import com.example.demo.PdfValidationException ;
 @Service
 public class PDFValidatorVERA implements PDFValidator {
 
-    public static <T> void LOG(T t) {
-        System.out.println(t) ;
-    }
-    
     public boolean validate(InputStream istream, String flavourStr) throws PdfValidationException {
     
         try {
