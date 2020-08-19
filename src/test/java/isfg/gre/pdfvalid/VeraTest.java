@@ -1,19 +1,12 @@
 
-package com.example.demo ;
+package isfg.gre.pdfvalid ;
 
-import com.example.demo.service.PDFValidatorVERA ;
+import isfg.gre.pdfvalid.service.PDFValidatorVERA ;
 
 import java.io.FileInputStream ;
-import java.nio.file.Path ;
 import java.nio.file.Paths ;
 import java.io.FileNotFoundException ;
 
-import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
-import org.verapdf.pdfa.Foundries;
-import org.verapdf.pdfa.PDFAParser;
-import org.verapdf.pdfa.results.ValidationResult;
-import org.verapdf.pdfa.PDFAValidator;
-import org.verapdf.pdfa.flavours.PDFAFlavour;
 
 // junit knihovny
 import static org.junit.Assert.* ;

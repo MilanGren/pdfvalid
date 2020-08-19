@@ -1,5 +1,5 @@
 
-package com.example.demo ;
+package isfg.gre.pdfvalid ;
 
 public class Result {
       private String value = "Failed" ;

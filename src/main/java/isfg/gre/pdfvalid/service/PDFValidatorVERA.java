@@ -1,5 +1,5 @@
 
-package com.example.demo.service ;
+package isfg.gre.pdfvalid.service ;
 
 import java.io.InputStream ;
 
@@ -10,16 +10,12 @@ import org.verapdf.pdfa.results.ValidationResult;
 import org.verapdf.pdfa.PDFAValidator;
 import org.verapdf.pdfa.flavours.PDFAFlavour;
 import org.springframework.stereotype.Service;
-
-import java.io.FileNotFoundException ;
 import org.verapdf.core.ModelParsingException ;
-import java.io.IOException ;
 import org.verapdf.core.EncryptedPdfException ;
 import org.verapdf.core.ValidationException ;
 
-import com.example.demo.PDFValidator ;
-
-import com.example.demo.PDFValidationException ;
+import isfg.gre.pdfvalid.PDFValidator ;
+import isfg.gre.pdfvalid.PDFValidationException ;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {
