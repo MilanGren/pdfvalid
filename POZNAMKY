@@ -1,5 +1,0 @@
-
-PDFko src/test/resources/example_065.pdf: Jsem stahnul z netu jako validni (1b), nicmene ruznymi on-line
-validatory prochazi nebo neprochazi.. V onlide vera-based validatoru toto pdf neprochazi, stejne jako v 
-tomto programu neprochazi. Pro dalsi info viz. TEST_4 v src/test/java/com/example/demo/VeraTest.java.
-
