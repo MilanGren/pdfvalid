@@ -22,7 +22,6 @@ import java.io.IOException ;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 // this project
 import isfg.gre.pdfvalid.PDFValidator ; // interface
 import isfg.gre.pdfvalid.Result ; // wrapping result
@@ -43,7 +42,6 @@ public class ControllerApp {
     return e ;
   }
 
-
   @ExceptionHandler(Exception.class)
   public Exception error(Exception e) {
     log.error(e.getMessage(),e) ;
@@ -62,7 +60,9 @@ public class ControllerApp {
     }
   
     InputStream stream = file.getInputStream() ;
-
+if (true) {
+  throw new IOException("ahoj") ;
+}
     boolean isvalid = pdfvalidator.validate(stream,level) ; 
   
     return new Result(isvalid,level,filename) ;
