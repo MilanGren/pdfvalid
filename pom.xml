@@ -19,11 +19,7 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>	
-	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -34,8 +30,6 @@
 		    <artifactId>activation</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-
-
 
 
 <!-- ORG APACHE PDFBOX - alternative to VERA, which does not work for pdfs above 1b -->
@@ -58,17 +52,17 @@
 
 
 	<!-- VERAPDF -->
-	<dependency>
-	  <groupId>org.verapdf</groupId>
-	  <artifactId>validation-model</artifactId>
-	  <version>1.16.1</version>
-	</dependency>
-	<dependency> <!-- required by VERAPDF -->
-	    <groupId>org.glassfish.jaxb</groupId>
-	    <artifactId>jaxb-runtime</artifactId>
-	    <version>2.3.1</version>
-	</dependency>
-
+        <dependency>
+          <groupId>org.verapdf</groupId>
+          <artifactId>validation-model</artifactId>
+          <version>1.16.1</version>
+        </dependency>
+        <dependency> <!-- required by VERAPDF -->
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency
+        
 	<!-- LOGGER -->
 	<dependency>
 	    <groupId>org.apache.logging.log4j</groupId>
@@ -86,12 +80,12 @@
 	    <version>2.7</version>
 	</dependency>
 
-
-<dependency>
-    <groupId>commons-io</groupId>
-    <artifactId>commons-io</artifactId>
-    <version>2.6</version>
-</dependency>
+<!-- file utils-->
+	<dependency>
+	    <groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+	    <version>2.6</version>
+	</dependency>
 
 
 	<!-- TESTS -->
