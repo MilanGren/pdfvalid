@@ -7,8 +7,6 @@ import java.io.FileInputStream ;
 import java.nio.file.Paths ;
 import java.io.FileNotFoundException ;
 
-
-// junit knihovny
 import static org.junit.Assert.* ;
 import org.junit.Test;
 
@@ -49,19 +47,20 @@ public class VeraTest {
 
 
 /*
+according to https://www.pdf-online.com/osa/validate.aspx it is 1b-valid
+according to https://www.pdfen.com/pdf-a-validator it is 1b-valid
+according to VERA online validator https://demo.verapdf.org/ it is NOT 1b-valid
+*/
 
-podle https://www.pdf-online.com/osa/validate.aspx prochazi jako 1b
-podle https://www.pdfen.com/pdf-a-validator prochazi jako 1b
-podle VERA online https://demo.verapdf.org/ neprochazi jako 1b
     @Test
-    public void TEST_4() throws java.io.FileNotFoundException, org.verapdf.core.ModelParsingException, java.io.IOException, org.verapdf.core.EncryptedPdfException, org.verapdf.core.ValidationException {
+    public void TEST_4() throws PDFValidationException, FileNotFoundException { 
 
         PDFValidator validator = new PDFValidatorVERA() ;
         
-        assertTrue( validator.validate(new FileInputStream(Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath()),"1b") ) ; 
+        assertFalse( validator.validate(new FileInputStream(Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath()),"1b") ) ; 
         
     }
-*/
+
 
 }
 
