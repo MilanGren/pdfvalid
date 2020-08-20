@@ -50,7 +50,7 @@ public class ControllerApp {
     return e ;
   }
   
-  @PostMapping("/post")
+  @PostMapping("/pdfvalid")
   public Result post(@RequestParam("file") MultipartFile file, @RequestParam("level") String level) throws PDFValidationException, IOException {
 
     String filename = file.getOriginalFilename() ;
