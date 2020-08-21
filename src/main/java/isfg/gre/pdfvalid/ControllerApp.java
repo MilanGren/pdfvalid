@@ -58,10 +58,12 @@ public class ControllerApp {
     if (!extension.equals("pdf")) {
       log.warn("file "+filename+" extension is "+extension+" (should be pdf)") ;
     }
-  
+    
     InputStream stream = file.getInputStream() ;
 
     boolean isvalid = pdfvalidator.validate(stream,level) ; 
+  
+    log.info(filename + " is " + level + " valid: " + isvalid) ;
   
     return new Result(isvalid,level,filename) ;
   }
