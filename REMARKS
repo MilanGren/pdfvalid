@@ -1,5 +1,5 @@
 
-PDF file src/test/resources/example_065.pdf: I downloaded it from the internet as 1b-valid however different 
-on-line validators give different results.. On-line vera-based validator says its not 1b-valid, this project 
-also says its not 1b-valid (see TEST_4 v src/test/java/com/example/demo/VeraTest.java.)
+PDF file src/test/resources/example_065.pdf: I downloaded it from the internet (https://tcpdf.org/examples/example_065/) 
+as 1b-valid however different on-line validators give different results.. On-line vera-based validator says its not 1b-valid, this project 
+also says its not 1b-valid (see TEST_4 in src/test/java/com/example/demo/VeraTest.java.)
 
