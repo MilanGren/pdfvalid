@@ -60,9 +60,7 @@ public class ControllerApp {
     }
   
     InputStream stream = file.getInputStream() ;
-if (true) {
-  throw new IOException("ahoj") ;
-}
+
     boolean isvalid = pdfvalidator.validate(stream,level) ; 
   
     return new Result(isvalid,level,filename) ;
