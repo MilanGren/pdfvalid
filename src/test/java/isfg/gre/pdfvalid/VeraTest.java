@@ -45,6 +45,16 @@ public class VeraTest {
     }
     
     
+    @Test
+    public void TEST_WRONG_FLAVOUR() throws PDFValidationException, FileNotFoundException { 
+
+        PDFValidator validator = new PDFValidatorVERA() ;
+        
+        assertFalse( validator.validate(new FileInputStream(Paths.get("src","test","resources","notvalid.pdf").toFile().getAbsolutePath()),"abcdef") ) ; 
+        
+    }
+    
+    
     
 
 /*

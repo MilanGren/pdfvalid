@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.verapdf.core.ModelParsingException ;
 import org.verapdf.core.EncryptedPdfException ;
 import org.verapdf.core.ValidationException ;
+import org.verapdf.pdfa.flavours.PDFAFlavour ;
 
 import isfg.gre.pdfvalid.PDFValidator ;
 import isfg.gre.pdfvalid.PDFValidationException ;
@@ -21,6 +22,8 @@ import isfg.gre.pdfvalid.PDFValidationException ;
 public class PDFValidatorVERA implements PDFValidator {
 
     public boolean validate(InputStream istream, String flavourStr) throws PDFValidationException {
+        
+        if (!PDFAFlavour.getFlavourIds().contains(flavourStr)) throw new PDFValidationException(flavourStr + " is not available option") ;
     
         try {
             VeraGreenfieldFoundryProvider.initialise();
