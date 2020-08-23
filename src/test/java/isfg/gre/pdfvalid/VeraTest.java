@@ -6,7 +6,6 @@ import isfg.gre.pdfvalid.service.PDFValidatorVERA ;
 import java.io.FileInputStream ;
 import java.nio.file.Paths ;
 import java.io.FileNotFoundException ;
-import java.util.Iterator ;
 
 import org.verapdf.pdfa.flavours.PDFAFlavour ;
 

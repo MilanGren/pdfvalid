@@ -2,7 +2,6 @@
 package isfg.gre.pdfvalid.service ;
 
 import java.io.InputStream ;
-import java.util.Iterator ;
 import java.io.ByteArrayInputStream ;
 
 import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
@@ -11,7 +10,6 @@ import org.verapdf.pdfa.PDFAParser;
 import org.verapdf.pdfa.results.ValidationResult;
 import org.verapdf.pdfa.PDFAValidator;
 import org.verapdf.pdfa.flavours.PDFAFlavour;
-import org.verapdf.gf.model.GFModelParser ;
 
 import org.springframework.stereotype.Service;
 import org.verapdf.core.ModelParsingException ;
@@ -22,7 +20,6 @@ import isfg.gre.pdfvalid.PDFValidator ;
 import isfg.gre.pdfvalid.Result ;
 import isfg.gre.pdfvalid.PDFValidationException ;
 
-import org.apache.commons.io.IOUtils;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {

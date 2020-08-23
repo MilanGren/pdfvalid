@@ -1,26 +1,26 @@
 
 
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/pdfvalid
+curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/pdfvalid
 echo
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
+curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
 echo
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-2b.pdf -F level="2b" http://localhost:8080/pdfvalid  # wrong suffix but works
+curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F level="2b" http://localhost:8080/pdfvalid  # wrong suffix but works
 echo
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/notvalid.pdf -F level="1b" http://localhost:8080/pdfvalid  
+curl -X POST -F file=@../src/test/resources/notvalid.pdf -F level="1b" http://localhost:8080/pdfvalid  
 echo
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/notvalid.pdf -F level="1b" -F check=true http://localhost:8080/pdfvalid  
+curl -X POST -F file=@../src/test/resources/notvalid.pdf -F level="1b" -F check=true http://localhost:8080/pdfvalid  
 echo
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-2b.pdf -F check=true http://localhost:8080/pdfvalid  
+curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F check=true http://localhost:8080/pdfvalid  
 echo
 
 # invokes PDFValidationException
-# curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/text_file.txt -F level="1b" http://localhost:8080/pdfvalid  
+# curl -X POST -F file=@../src/test/resources/text_file.txt -F level="1b" http://localhost:8080/pdfvalid  
 echo 
 
  
