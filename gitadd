@@ -1,2 +1,3 @@
 git add pom.xml src/
 git add gitadd .gitignore REMARKS
+git add examples/*
