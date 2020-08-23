@@ -3,19 +3,30 @@ package isfg.gre.pdfvalid ;
 
 public class Result {
       private String value = "Failed" ;
-      private String level ;
+      private String askedFlavourId ;
       private String filename ;
+      private String iso ;
 
-      public Result(boolean isvalid, String level, String filename){
+      public Result(String filename) {
+            this.filename = filename ; 
+      }
+
+      public void Set(boolean isvalid, String askedFlavourId, String iso) {
             if (isvalid) {
                   value = "Passed" ;
             }
-            this.level = level ;
-            this.filename = filename ;
+            this.askedFlavourId = askedFlavourId ;
+            this.iso = iso ;
       }
       
       public String getValue() {return value ;}
-      public String getLevel() {return level ;}
+      public String getAskedFlavourId() {return askedFlavourId ;}
       public String getFilename() {return filename ;}
+      public String getIso() {return iso ;}
+      
+      
+      public void setAskedFlavourId(String askedFlavourId) {
+            this.askedFlavourId = askedFlavourId ; 
+      }
       
 }

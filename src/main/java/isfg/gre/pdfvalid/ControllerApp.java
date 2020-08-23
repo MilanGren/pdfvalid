@@ -17,6 +17,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.lang.Exception ;
 import java.io.InputStream ; 
 import java.io.IOException ;
+import java.io.ByteArrayInputStream ;
 
 // logger
 import org.slf4j.Logger;
@@ -47,9 +48,13 @@ public class ControllerApp {
     log.error(e.getMessage(),e) ;
     return e ;
   }
-  
-  @PostMapping("/pdfvalid")
-  public Result post(@RequestParam("file") MultipartFile file, @RequestParam("level") String level) throws PDFValidationException, IOException {
+
+// two taks are defined for this controlled
+//   1. given level (flavourID) and file => "Passed" or "Failed" depending on if is/isnot valid
+//   2. given file and check = true      => trying to find any "Passed" level occurence among all defined by VERA
+
+  @PostMapping("/pdfvalid") // if check=true (searching for any valid level) then level is not used
+  public Result post(@RequestParam("file") MultipartFile file, @RequestParam(value="level", defaultValue="not used") String level, @RequestParam(value="check", defaultValue="false") boolean check) throws PDFValidationException, IOException {
 
     String filename = file.getOriginalFilename() ;
 
@@ -59,13 +64,17 @@ public class ControllerApp {
       log.warn("file "+filename+" extension is "+extension+" (should be pdf)") ;
     }
     
-    InputStream stream = file.getInputStream() ;
-
-    boolean isvalid = pdfvalidator.validate(stream,level) ; 
+    Result result = new Result(filename) ;
+    
+    if (check) {
+      pdfvalidator.tryAllFlavoursGetFirstOccurence(file.getInputStream(),result) ;
+    } else {
+      pdfvalidator.validate(file.getInputStream(),level,result) ; 
+    }
   
-    log.info(filename + " is " + level + " valid: " + isvalid) ;
+    log.info(filename + " is " + result.getAskedFlavourId() + " valid?: " + result.getValue() + " , iso: " + result.getIso()) ;
   
-    return new Result(isvalid,level,filename) ;
+    return result  ;
   }
 
 }

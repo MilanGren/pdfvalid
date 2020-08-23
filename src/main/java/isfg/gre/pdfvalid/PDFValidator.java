@@ -4,5 +4,6 @@ package isfg.gre.pdfvalid ;
 import java.io.InputStream ;
 
 public interface PDFValidator {
-    public boolean validate(InputStream a, String b) throws PDFValidationException ;
+    public void validate(InputStream a, String b, Result r) throws PDFValidationException ;
+    public void tryAllFlavoursGetFirstOccurence(InputStream a, Result r) throws PDFValidationException ;
 }
