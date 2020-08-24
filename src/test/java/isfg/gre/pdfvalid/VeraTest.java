@@ -9,14 +9,32 @@ import java.io.FileNotFoundException ;
 
 import org.verapdf.pdfa.flavours.PDFAFlavour ;
 
+// logger
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // junit
 import static org.junit.Assert.* ;
 import org.junit.Test;
 
 public class VeraTest {
 
-    // available flavour ids: {"4","1a","2b","1b","3u","2u","3a","2a","3b"} ; 
-    // however using id 4 is somewhat weird/magic/broken
+    private static final Logger log = LoggerFactory.getLogger(VeraTest.class) ;
+
+    @Test
+    public void TEST_FLAVOURINFO() {
+        log.info("will print info of available flavours") ;
+        for(PDFAFlavour flavour: PDFAFlavour.values()) {
+            log.info( String.format( "%-5s %-10s %-20s %-10s %-55s %-10s", flavour.getId(), 
+                                                                           flavour.getPart().getName(), 
+                                                                           flavour.getPart().getId(), 
+                                                                           flavour.getPart().getYear(), 
+                                                                           flavour.getPart().getDescription(), 
+                                                                           flavour.getLevel().getName(),
+                                                                           ));
+                                                                           
+        }
+    }
   
     @Test
     public void TEST_tryAllFlavoursGetFirstOccurence_SUCCESS() throws PDFValidationException, FileNotFoundException { 
@@ -125,6 +143,7 @@ according to this project it is NOT 1b-valid
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Failed" , result.getValue() ) ; // no flavour is ok
     }
+
     
 
 }

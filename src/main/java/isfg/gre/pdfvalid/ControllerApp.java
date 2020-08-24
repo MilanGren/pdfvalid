@@ -43,7 +43,7 @@ public class ControllerApp {
 
   @ExceptionHandler(Exception.class)
   public Exception error(Exception e) {
-    log.error(e.getMessage(),e) ;
+    log.error(e.getMessage()) ;
     return e ;
   }
 
@@ -52,7 +52,7 @@ public class ControllerApp {
 //   2. given file and check = true      => trying to find any "Passed" level occurence among all defined by VERA
 
   @PostMapping("/pdfvalid") // if check=true (searching for any valid level) then level is not used
-  public Result post(@RequestParam("file") MultipartFile file, @RequestParam(value="level", defaultValue="not used") String level, @RequestParam(value="check", defaultValue="false") boolean check) throws PDFValidationException, IOException {
+  public Result post(@RequestParam("file") MultipartFile file, @RequestParam(value="level", defaultValue="1b") String level, @RequestParam(value="check", defaultValue="false") boolean check) throws PDFValidationException, IOException {
 
     String filename = file.getOriginalFilename() ;
 

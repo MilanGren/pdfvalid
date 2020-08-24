@@ -24,8 +24,13 @@ import isfg.gre.pdfvalid.PDFValidationException ;
 @Service
 public class PDFValidatorVERA implements PDFValidator {
 
+
+    public PDFValidatorVERA() {
+        VeraGreenfieldFoundryProvider.initialise();        
+    }
+
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
-        VeraGreenfieldFoundryProvider.initialise();    
+        
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
         try {        
             InputStream copyStream ;
@@ -60,8 +65,6 @@ public class PDFValidatorVERA implements PDFValidator {
     
         try {
 
-            VeraGreenfieldFoundryProvider.initialise();    
-   
             PDFAFlavour flavour = PDFAFlavour.fromString(askedFlavourId);
 
             PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
