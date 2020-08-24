@@ -1,18 +1,5 @@
 
 
-#curl -X POST -F file=@/home_pleiades/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F level="1A" http://localhost:8080/pdfvalid  
-
-
-
-
-
-#curl -X POST -F file=@/home_pleiades/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F check=true http://localhost:8080/pdfvalid  
-#exit
-
-
-
-echo
-
 curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
 echo
 
