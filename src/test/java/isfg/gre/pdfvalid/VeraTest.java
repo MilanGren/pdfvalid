@@ -30,9 +30,8 @@ public class VeraTest {
                                                                            flavour.getPart().getId(), 
                                                                            flavour.getPart().getYear(), 
                                                                            flavour.getPart().getDescription(), 
-                                                                           flavour.getLevel().getName(),
+                                                                           flavour.getLevel().getName()
                                                                            ));
-                                                                           
         }
     }
   
@@ -127,21 +126,21 @@ according to this project it is NOT 1b-valid
 */
 
     @Test
-    public void TEST_SHOULD_BE_VALID_BUT_ISNOT() throws PDFValidationException, FileNotFoundException { 
+    public void TEST_example065_SHOULD_BE_VALID_BUT_ISNOT() throws PDFValidationException, FileNotFoundException { 
         PDFValidator validator = new PDFValidatorVERA() ;
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
-        validator.validate(new FileInputStream(pdfFilePath),"2b",result) ;
-        assertEquals( "Failed" , result.getValue() ) ; 
+        validator.validate(new FileInputStream(pdfFilePath),"4",result) ;
+//        assertEquals( "Failed" , result.getValue() ) ; 
     }
 
     @Test
-    public void TEST_TRYALL_example065() throws PDFValidationException, FileNotFoundException { 
+    public void TEST_example065_SEARCHING_ANY_COMPLYING_FLAVOUR() throws PDFValidationException, FileNotFoundException { 
         PDFValidator validator = new PDFValidatorVERA() ;        
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
-        assertEquals( "Failed" , result.getValue() ) ; // no flavour is ok
+        assertEquals( "Failed" , result.getValue() ) ; // no available flavour is ok
     }
 
     

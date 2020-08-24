@@ -1,5 +1,13 @@
 
 
+curl -X POST -F file=@/home_pleiades/gre/java/maven/pdfvalid/src/test/resources/text_file.txt -F level="1b" http://localhost:8080/pdfvalid  
+
+#curl -X POST -F file=@/home_pleiades/gre/java/maven/pdfvalid/src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/pdfvalid
+
+
+
+echo
+exit
 
 curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf -F level="1b" http://localhost:8080/pdfvalid
 echo

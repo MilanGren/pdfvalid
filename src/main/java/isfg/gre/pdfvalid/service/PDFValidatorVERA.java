@@ -3,6 +3,7 @@ package isfg.gre.pdfvalid.service ;
 
 import java.io.InputStream ;
 import java.io.ByteArrayInputStream ;
+import java.util.NoSuchElementException ;
 
 import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
 import org.verapdf.pdfa.Foundries;
@@ -23,7 +24,6 @@ import isfg.gre.pdfvalid.PDFValidationException ;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {
-
 
     public PDFValidatorVERA() {
         VeraGreenfieldFoundryProvider.initialise();        
@@ -51,18 +51,12 @@ public class PDFValidatorVERA implements PDFValidator {
                 }
             }
         } catch (ModelParsingException | EncryptedPdfException | ValidationException | java.io.IOException e) {
-            throw new PDFValidationException("pdf validation error (is it realy a pdf file?)");
+            throw new PDFValidationException("pdf validation error",e);
         }
     }
     
     public void validate(InputStream istream, String askedFlavourId, Result result) throws PDFValidationException {
-
-        if (true) {  // case insensitive ask
-            if (PDFAFlavour.byFlavourId(askedFlavourId) == PDFAFlavour.NO_FLAVOUR) throw new PDFValidationException(askedFlavourId + " is not available option") ;
-        } else { // case sensitive ask
-            if (!PDFAFlavour.getFlavourIds().contains(askedFlavourId)) throw new PDFValidationException(askedFlavourId + " is not available option") ;
-        }
-    
+        
         try {
 
             PDFAFlavour flavour = PDFAFlavour.fromString(askedFlavourId);
@@ -79,8 +73,8 @@ public class PDFValidatorVERA implements PDFValidator {
                 result.Set(false,askedFlavourId,PDFAFlavour.NO_FLAVOUR.getPart().getId()) ;
             }
             
-        } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
-            throw new PDFValidationException("pdf validation error (is it realy a pdf file?)");
+        } catch (ModelParsingException | EncryptedPdfException | ValidationException | NoSuchElementException e) {
+            throw new PDFValidationException("pdf validation exception",e);
         }
      
 

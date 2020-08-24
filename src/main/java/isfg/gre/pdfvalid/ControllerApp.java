@@ -43,7 +43,7 @@ public class ControllerApp {
 
   @ExceptionHandler(Exception.class)
   public Exception error(Exception e) {
-    log.error(e.getMessage()) ;
+    log.error(e.getMessage(),e) ;
     return e ;
   }
 
