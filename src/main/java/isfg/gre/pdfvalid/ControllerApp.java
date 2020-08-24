@@ -58,19 +58,26 @@ public class ControllerApp {
 
     String extension = FilenameUtils.getExtension(filename) ;
 
-    if (!extension.equals("pdf")) {
+    if (!extension.equals("pdf")) {  // or cover it by exception?
       log.warn("file "+filename+" extension is "+extension+" (should be pdf)") ;
     }
     
     Result result = new Result(filename) ;
     
     if (check) {
+      log.info(filename + ": will check all VERA-defined flavours if there is any compliance") ;
       pdfvalidator.tryAllFlavoursGetFirstOccurence(file.getInputStream(),result) ;
     } else {
       pdfvalidator.validate(file.getInputStream(),level,result) ; 
     }
   
-    log.info(filename + " is " + result.getAskedFlavourId() + " valid?: " + result.getValue() + " , iso: " + result.getIso()) ;
+    if (result.isvalid) {
+      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getAskedFlavourId() + ", iso: " + result.getIso()) ;
+    } else {
+      log.info(filename + " validation: " + result.getValue()) ;
+    }
+    
+  
   
     return result  ;
   }

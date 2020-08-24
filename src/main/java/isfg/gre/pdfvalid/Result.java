@@ -6,12 +6,14 @@ public class Result {
       private String askedFlavourId ;
       private String filename ;
       private String iso ;
+      public boolean isvalid ;
 
       public Result(String filename) {
             this.filename = filename ; 
       }
 
       public void Set(boolean isvalid, String askedFlavourId, String iso) {
+            this.isvalid = isvalid ;
             if (isvalid) {
                   value = "Passed" ;
             }

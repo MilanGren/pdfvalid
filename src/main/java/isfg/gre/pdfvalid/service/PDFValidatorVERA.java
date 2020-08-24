@@ -4,6 +4,8 @@ package isfg.gre.pdfvalid.service ;
 import java.io.InputStream ;
 import java.io.ByteArrayInputStream ;
 import java.util.NoSuchElementException ;
+import java.util.NoSuchElementException ;
+import java.io.IOException ;
 
 import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
 import org.verapdf.pdfa.Foundries;
@@ -21,9 +23,14 @@ import isfg.gre.pdfvalid.PDFValidator ;
 import isfg.gre.pdfvalid.Result ;
 import isfg.gre.pdfvalid.PDFValidationException ;
 
+// logger
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class PDFValidatorVERA implements PDFValidator {
+
+    private static final Logger log = LoggerFactory.getLogger(PDFValidatorVERA.class) ;
 
     public PDFValidatorVERA() {
         VeraGreenfieldFoundryProvider.initialise();        
@@ -32,33 +39,51 @@ public class PDFValidatorVERA implements PDFValidator {
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
         
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
-        try {        
-            InputStream copyStream ;
-            byte[] buffer = new byte[istream.available()];
+
+        InputStream copyStream ;
+        byte[] buffer ;
+        try {
+            buffer = new byte[istream.available()];
             istream.read(buffer);
-            for(PDFAFlavour flavour: PDFAFlavour.values()) {
-                if (flavour != PDFAFlavour.NO_FLAVOUR && flavour != PDFAFlavour.byFlavourId("4")) {
-                    copyStream = new ByteArrayInputStream(buffer);
-                    PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
-                    PDFAParser parser = Foundries.defaultInstance().createParser(copyStream,flavour) ;
-                    ValidationResult r = validator.validate(parser); 
-                    if (r.isCompliant()) {
-                        result.Set(true,flavour.getId(),flavour.getPart().getId()) ;
-                        break ;
-                    } else {
-                        result.setAskedFlavourId(flavour.getId()) ;
-                    }
-                }
-            }
-        } catch (ModelParsingException | EncryptedPdfException | ValidationException | java.io.IOException e) {
+        } catch (IOException e) {
             throw new PDFValidationException("pdf validation error",e);
         }
+
+        for(PDFAFlavour flavour: PDFAFlavour.values()) {
+            try {                    
+                copyStream = new ByteArrayInputStream(buffer);
+                PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
+                PDFAParser parser = Foundries.defaultInstance().createParser(copyStream,flavour) ;
+                ValidationResult r = validator.validate(parser); 
+                log.info(" .. appling flavourid " + flavour.getId()) ;
+                if (r.isCompliant()) {
+                    result.Set(true,flavour.getId(),flavour.getPart().getId()) ;
+                    break ;
+                } else {
+                    result.setAskedFlavourId(flavour.getId()) ;
+                }
+            } catch (java.util.NoSuchElementException e) {
+                // there may be flavours defined in PDFAFlavour that can not be processed by validator 
+                //   - PDFAFlavour.NO_FLAVOUR representing not valid pdf by any 'no iso'
+                //   - PDFAFlavour.byFlavourId("4") representing somewhat experimental ..
+                // 
+                // moreover, i havent found any PDFAFlavour suitable attribute saying its experimental (.byFlavourId("4")) or represienting no iso (NO_FLAVOUR)
+            } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
+                throw new PDFValidationException("pdf validation error",e);
+            }
+        }
+                
+                
     }
     
     public void validate(InputStream istream, String askedFlavourId, Result result) throws PDFValidationException {
+
+        if (PDFAFlavour.byFlavourId(askedFlavourId) == PDFAFlavour.NO_FLAVOUR) throw new PDFValidationException(askedFlavourId + " is not available in VERA defined flavours") ;
         
         try {
-
+            // case sensitive aks
+            
+//log.info(askedFlavourId) ;
             PDFAFlavour flavour = PDFAFlavour.fromString(askedFlavourId);
 
             PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);

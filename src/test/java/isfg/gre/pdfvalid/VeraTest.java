@@ -130,8 +130,8 @@ according to this project it is NOT 1b-valid
         PDFValidator validator = new PDFValidatorVERA() ;
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
-        validator.validate(new FileInputStream(pdfFilePath),"4",result) ;
-//        assertEquals( "Failed" , result.getValue() ) ; 
+        validator.validate(new FileInputStream(pdfFilePath),"1b",result) ;
+        assertEquals( "Failed" , result.getValue() ) ; 
     }
 
     @Test
