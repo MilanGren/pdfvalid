@@ -78,18 +78,14 @@ public class PDFValidatorVERA implements PDFValidator {
     
     public void validate(InputStream istream, String askedFlavourId, Result result) throws PDFValidationException {
 
+        // case sensitive aks
         if (PDFAFlavour.byFlavourId(askedFlavourId) == PDFAFlavour.NO_FLAVOUR) throw new PDFValidationException(askedFlavourId + " is not available in VERA defined flavours") ;
         
         try {
-            // case sensitive aks
-            
-//log.info(askedFlavourId) ;
+
             PDFAFlavour flavour = PDFAFlavour.fromString(askedFlavourId);
-
             PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
-
             PDFAParser parser = Foundries.defaultInstance().createParser(istream,flavour) ;
-
             ValidationResult r = validator.validate(parser);
         
             if (r.isCompliant()) {
