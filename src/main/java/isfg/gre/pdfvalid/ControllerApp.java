@@ -66,16 +66,15 @@ public class ControllerApp {
     
     if (check) {
       pdfvalidator.decide(file.getInputStream(),result) ;
-//      pdfvalidator.tryAllFlavoursGetFirstOccurence(file.getInputStream(),result) ;
     } else {
       pdfvalidator.validate(file.getInputStream(),level,result) ; 
     }
   
-    if (result.isvalid) {
-      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getAskedFlavourId() + ", iso: " + result.getIso()) ;
-    } else {
-      log.info(filename + " validation: " + result.getValue()) ;
-    }
+//    if (result.isvalid) {
+      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getFlavourId() + ", iso: " + result.getIso()) ;
+//    } else {
+//      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getFlavourId() ) ;
+//    }
     
   
   

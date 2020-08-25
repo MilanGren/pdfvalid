@@ -29,16 +29,16 @@ according to this project it is NOT 1b-valid
 */
 
     @Test
-    public void TEST_example065_SHOULD_BE_VALID_BUT_ISNOT() throws PDFValidationException, FileNotFoundException { 
+    public void TEST_SHOULD_BE_VALID_BUT_ISNOT() throws PDFValidationException, FileNotFoundException { 
         PDFValidator validator = new PDFValidatorVERA() ;
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"1b",result) ;
-        assertEquals( "Failed" , result.getValue() ) ; 
+        assertEquals( "Failed" , result.getValue() ) ; // according to vendor pdf validator this should be Passed
     }
 
     @Test // searching for any compliance explicitly
-    public void TEST_example065_tryAllFlavoursGetFirstOccurence() throws PDFValidationException, FileNotFoundException { 
+    public void TEST_tryAllFlavoursGetFirstOccurence() throws PDFValidationException, FileNotFoundException { 
         PDFValidator validator = new PDFValidatorVERA() ;        
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
@@ -47,7 +47,7 @@ according to this project it is NOT 1b-valid
     }
     
     @Test // searching for any compliance implicitly (by VERA parser itself)
-    public void TEST_example065_decide() throws PDFValidationException, FileNotFoundException { 
+    public void TEST_decide() throws PDFValidationException, FileNotFoundException { 
         PDFValidator validator = new PDFValidatorVERA() ;        
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;

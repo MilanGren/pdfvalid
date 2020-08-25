@@ -1,4 +1,6 @@
 
+curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
 
 curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
 echo
@@ -19,6 +21,9 @@ curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F check=true http
 echo
 
 curl -X POST -F file=@../src/test/resources/latex_for_beginner.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
+
+curl -X POST -F file=@../src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
 echo
 
 # invokes PDFValidationException

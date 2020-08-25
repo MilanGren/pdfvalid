@@ -37,19 +37,19 @@ public class PDFValidatorVERA implements PDFValidator {
 
     // if you are not sure what PDF/A specification to use you can let the software decide
     public void decide(InputStream istream, Result result) throws PDFValidationException {
-        result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
         try { 
             PDFAParser parser = Foundries.defaultInstance().createParser(istream) ;
             PDFAValidator validator = Foundries.defaultInstance().createValidator(parser.getFlavour(), false);
             ValidationResult r = validator.validate(parser);
             if (r.isCompliant()) result.Set(true,parser.getFlavour().getId(),parser.getFlavour().getPart().getId()) ;
+            else result.Set(false,parser.getFlavour().getId(),parser.getFlavour().getPart().getId()) ;
         } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
             throw new PDFValidationException("pdf validation error",e);
         }        
     }
     
     
-    // this should be the same as decide(..) but its done explicitly
+    // this should be the similar to decide(..) but its done explicitly and unlike decide(..) if not .isCompliant() than automatically PDFAFlavour is NO_FLAVOUR with respective iso
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
         
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..

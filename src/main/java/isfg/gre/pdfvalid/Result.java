@@ -3,7 +3,7 @@ package isfg.gre.pdfvalid ;
 
 public class Result {
       private String value = "Failed" ;
-      private String askedFlavourId ;
+      private String flavourId ;
       private String filename ;
       private String iso ;
       public boolean isvalid ;
@@ -12,23 +12,23 @@ public class Result {
             this.filename = filename ; 
       }
 
-      public void Set(boolean isvalid, String askedFlavourId, String iso) {
+      public void Set(boolean isvalid, String flavourId, String iso) {
             this.isvalid = isvalid ;
             if (isvalid) {
                   value = "Passed" ;
             }
-            this.askedFlavourId = askedFlavourId ;
+            this.flavourId = flavourId ;
             this.iso = iso ;
       }
       
       public String getValue() {return value ;}
-      public String getAskedFlavourId() {return askedFlavourId ;}
+      public String getFlavourId() {return flavourId ;}
       public String getFilename() {return filename ;}
       public String getIso() {return iso ;}
       
       
-      public void setAskedFlavourId(String askedFlavourId) {
-            this.askedFlavourId = askedFlavourId ; 
+      public void setAskedFlavourId(String flavourId) {
+            this.flavourId = flavourId ; 
       }
       
 }

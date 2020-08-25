@@ -42,7 +42,7 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Passed" , result.getValue() ) ;
-        assertEquals( "2b" , result.getAskedFlavourId() ) ;
+        assertEquals( "2b" , result.getFlavourId() ) ;
         assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
 
@@ -53,7 +53,7 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Passed" , result.getValue() ) ;
-        assertEquals( "2b" , result.getAskedFlavourId() ) ;
+        assertEquals( "2b" , result.getFlavourId() ) ;
         assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
     
@@ -65,7 +65,7 @@ public class VeraTest {
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Failed" , result.getValue() ) ;
         assertEquals( "ISO 0-0:" , result.getIso() )  ;
-        assertEquals( "3u", result.getAskedFlavourId() ) ; // last asked!
+        assertEquals( "3u", result.getFlavourId() ) ; // last asked!
     }
     
     @Test
@@ -94,7 +94,7 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"1b",result) ;
         assertEquals( "Passed" , result.getValue() ) ;
-        assertEquals( "1b" , result.getAskedFlavourId() ) ;
+        assertEquals( "1b" , result.getFlavourId() ) ;
         assertEquals( "ISO 19005-1:2005" , result.getIso() )  ;
     }
     
@@ -105,7 +105,7 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"1b",result) ;
         assertEquals( "Failed" , result.getValue() ) ;
-        assertEquals( "1b" , result.getAskedFlavourId() ) ;
+        assertEquals( "1b" , result.getFlavourId() ) ;
         assertEquals( "ISO 0-0:" , result.getIso() )  ;
     }
 
@@ -116,7 +116,7 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"2b",result) ;
         assertEquals( "Passed" , result.getValue() ) ;
-        assertEquals( "2b" , result.getAskedFlavourId() ) ;
+        assertEquals( "2b" , result.getFlavourId() ) ;
         assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
 
