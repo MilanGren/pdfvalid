@@ -65,8 +65,8 @@ public class ControllerApp {
     Result result = new Result(filename) ;
     
     if (check) {
-      log.info(filename + ": will check all VERA-defined flavours if there is any compliance") ;
-      pdfvalidator.tryAllFlavoursGetFirstOccurence(file.getInputStream(),result) ;
+      pdfvalidator.decide(file.getInputStream(),result) ;
+//      pdfvalidator.tryAllFlavoursGetFirstOccurence(file.getInputStream(),result) ;
     } else {
       pdfvalidator.validate(file.getInputStream(),level,result) ; 
     }

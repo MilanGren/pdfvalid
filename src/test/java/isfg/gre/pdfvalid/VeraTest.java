@@ -45,6 +45,17 @@ public class VeraTest {
         assertEquals( "2b" , result.getAskedFlavourId() ) ;
         assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
+
+    @Test
+    public void TEST_decide() throws PDFValidationException, FileNotFoundException { 
+        PDFValidator validator = new PDFValidatorVERA() ;        
+        String pdfFilePath = Paths.get("src","test","resources","validpdf_A-2b.pdf").toFile().getAbsolutePath() ;
+        Result result = new Result(pdfFilePath) ;
+        validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
+        assertEquals( "Passed" , result.getValue() ) ;
+        assertEquals( "2b" , result.getAskedFlavourId() ) ;
+        assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
+    }
     
     @Test
     public void TEST_tryAllFlavoursGetFirstOccurence_NOTSUCCES() throws PDFValidationException, FileNotFoundException { 
@@ -117,33 +128,5 @@ public class VeraTest {
         validator.validate(new FileInputStream(pdfFilePath),"2bx",result) ;    
     }
     
-
-/*
-according to https://www.pdf-online.com/osa/validate.aspx it is 1b-valid
-according to https://www.pdfen.com/pdf-a-validator it is 1b-valid
-according to VERA online validator https://demo.verapdf.org/ it is NOT 1b-valid
-according to this project it is NOT 1b-valid
-*/
-
-    @Test
-    public void TEST_example065_SHOULD_BE_VALID_BUT_ISNOT() throws PDFValidationException, FileNotFoundException { 
-        PDFValidator validator = new PDFValidatorVERA() ;
-        String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
-        Result result = new Result(pdfFilePath) ;
-        validator.validate(new FileInputStream(pdfFilePath),"1b",result) ;
-        assertEquals( "Failed" , result.getValue() ) ; 
-    }
-
-    @Test
-    public void TEST_example065_SEARCHING_ANY_COMPLYING_FLAVOUR() throws PDFValidationException, FileNotFoundException { 
-        PDFValidator validator = new PDFValidatorVERA() ;        
-        String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
-        Result result = new Result(pdfFilePath) ;
-        validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
-        assertEquals( "Failed" , result.getValue() ) ; // no available flavour is ok
-    }
-
-    
-
 }
 

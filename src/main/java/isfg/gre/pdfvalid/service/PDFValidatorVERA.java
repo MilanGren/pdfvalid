@@ -23,7 +23,6 @@ import isfg.gre.pdfvalid.PDFValidator ;
 import isfg.gre.pdfvalid.Result ;
 import isfg.gre.pdfvalid.PDFValidationException ;
 
-// logger
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +35,21 @@ public class PDFValidatorVERA implements PDFValidator {
         VeraGreenfieldFoundryProvider.initialise();        
     }
 
+    // if you are not sure what PDF/A specification to use you can let the software decide
+    public void decide(InputStream istream, Result result) throws PDFValidationException {
+        result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
+        try { 
+            PDFAParser parser = Foundries.defaultInstance().createParser(istream) ;
+            PDFAValidator validator = Foundries.defaultInstance().createValidator(parser.getFlavour(), false);
+            ValidationResult r = validator.validate(parser);
+            if (r.isCompliant()) result.Set(true,parser.getFlavour().getId(),parser.getFlavour().getPart().getId()) ;
+        } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
+            throw new PDFValidationException("pdf validation error",e);
+        }        
+    }
+    
+    
+    // this should be the same as decide(..) but its done explicitly
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
         
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
@@ -50,7 +64,7 @@ public class PDFValidatorVERA implements PDFValidator {
         }
 
         for(PDFAFlavour flavour: PDFAFlavour.values()) {
-            try {                    
+            try { 
                 copyStream = new ByteArrayInputStream(buffer);
                 PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
                 PDFAParser parser = Foundries.defaultInstance().createParser(copyStream,flavour) ;
@@ -78,7 +92,7 @@ public class PDFValidatorVERA implements PDFValidator {
     
     public void validate(InputStream istream, String askedFlavourId, Result result) throws PDFValidationException {
 
-        // case sensitive aks
+        // case insensitive aks
         if (PDFAFlavour.byFlavourId(askedFlavourId) == PDFAFlavour.NO_FLAVOUR) throw new PDFValidationException(askedFlavourId + " is not available in VERA defined flavours") ;
         
         try {

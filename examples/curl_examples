@@ -12,7 +12,13 @@ echo
 curl -X POST -F file=@../src/test/resources/notvalid.pdf -F level="1b" -F check=true http://localhost:8080/pdfvalid  
 echo
 
+curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
+
 curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
+
+curl -X POST -F file=@../src/test/resources/latex_for_beginner.pdf -F check=true http://localhost:8080/pdfvalid  
 echo
 
 # invokes PDFValidationException
