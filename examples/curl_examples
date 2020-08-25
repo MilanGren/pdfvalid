@@ -1,33 +1,43 @@
 
-curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
-echo
-
-curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf2 -F level="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
-echo
-
-curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F level="2b" http://localhost:8080/pdfvalid  # wrong suffix but works
-echo
-
-curl -X POST -F file=@../src/test/resources/notvalid.pdf -F level="1b" http://localhost:8080/pdfvalid  
-echo
-
-curl -X POST -F file=@../src/test/resources/notvalid.pdf -F level="1b" -F check=true http://localhost:8080/pdfvalid  
-echo
-
+echo EXAMPLE - is just valid
 curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf -F check=true http://localhost:8080/pdfvalid  
 echo
+echo 
 
-curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F check=true http://localhost:8080/pdfvalid  
+echo EXAMPLE - is just valid
+curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F flavourId="2b" http://localhost:8080/pdfvalid  # wrong suffix but works
+echo
 echo
 
+echo EXAMPLE - finds the same results as the previous one
+curl -X POST -F file=@../src/test/resources/validpdf_A-2b.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
+echo
+
+echo EXAMPLE - not valid but stils the Validation Profile is 2u
+curl -X POST -F file=@/home/gre/java/maven/pdfvalid/src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
+echo
+echo
+
+echo EXAMPLE - is valid even though the suffix is pdf2
+curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf2 -F flavourId="1b" http://localhost:8080/pdfvalid  # wrong suffix but works
+echo
+echo 
+
+echo "IMPORTANT EXAMPLE - both not valid (Failed) but iso is different - see REMARKS"
+curl -X POST -F file=@../src/test/resources/notvalid.pdf -F flavourId="1b" http://localhost:8080/pdfvalid  
+echo
+curl -X POST -F file=@../src/test/resources/notvalid.pdf -F flavourId="1b" -F check=true http://localhost:8080/pdfvalid  
+echo
+echo
+
+echo EXAMPLE - not valid
 curl -X POST -F file=@../src/test/resources/latex_for_beginner.pdf -F check=true http://localhost:8080/pdfvalid  
 echo
 
-curl -X POST -F file=@../src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
-echo
 
-# invokes PDFValidationException
-# curl -X POST -F file=@../src/test/resources/text_file.txt -F level="1b" http://localhost:8080/pdfvalid  
+# EXAMPLE - invokes PDFValidationException
+# curl -X POST -F file=@../src/test/resources/text_file.txt -F flavourId="1b" http://localhost:8080/pdfvalid  
 echo 
 
  

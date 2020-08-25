@@ -48,11 +48,11 @@ public class ControllerApp {
   }
 
 // two taks are defined for this controlled
-//   1. given level (flavourID) and file => "Passed" or "Failed" depending on if is/isnot valid
+//   1. given flavourID and file => "Passed" or "Failed" depending on if is/isnot valid
 //   2. given file and check = true      => trying to find any "Passed" level occurence among all defined by VERA
 
   @PostMapping("/pdfvalid") // if check=true (searching for any valid level) then level is not used
-  public Result post(@RequestParam("file") MultipartFile file, @RequestParam(value="level", defaultValue="1b") String level, @RequestParam(value="check", defaultValue="false") boolean check) throws PDFValidationException, IOException {
+  public Result post(@RequestParam("file") MultipartFile file, @RequestParam(value="flavourId", defaultValue="1b") String flavourIdAsk, @RequestParam(value="check", defaultValue="false") boolean check) throws PDFValidationException, IOException {
 
     String filename = file.getOriginalFilename() ;
 
@@ -67,16 +67,10 @@ public class ControllerApp {
     if (check) {
       pdfvalidator.decide(file.getInputStream(),result) ;
     } else {
-      pdfvalidator.validate(file.getInputStream(),level,result) ; 
+      pdfvalidator.validate(file.getInputStream(),flavourIdAsk,result) ; 
     }
   
-//    if (result.isvalid) {
-      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getFlavourId() + ", iso: " + result.getIso()) ;
-//    } else {
-//      log.info(filename + " validation: " + result.getValue() + ", level: " + result.getFlavourId() ) ;
-//    }
-    
-  
+    log.info(filename + " validation: " + result.getValue() + ", flavourId: " + result.getFlavourId() + ", iso: " + result.getIso()) ;
   
     return result  ;
   }

@@ -48,8 +48,7 @@ public class PDFValidatorVERA implements PDFValidator {
         }        
     }
     
-    
-    // this should be the similar to decide(..) but its done explicitly and unlike decide(..) if not .isCompliant() than automatically PDFAFlavour is NO_FLAVOUR with respective iso
+    // this should be the similar to decide(..) but its done explicitly and unlike decide(..) if not .isCompliant() then automatically PDFAFlavour is NO_FLAVOUR with respective iso
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
         
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
