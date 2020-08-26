@@ -22,8 +22,9 @@ public class ProblemLatexForBeginnersTest {
     private static final Logger log = LoggerFactory.getLogger(ProblemLatexForBeginnersTest.class) ;
 
 /*
-I converted it to a valid pdf by https://www.pdfen.com/pdf-a-validator (result should be 2u), however
-according to this project it is NOT 2u-valid
+I converted it to a valid pdf by https://www.pdfen.com/pdf-a-validator (os it should be 2u), however,
+according to this project it is NOT 2u-valid. However, the Validation Profile (represented by flavourId) is 2u
+.. see REMARKS
 */
 
     @Test
@@ -33,8 +34,12 @@ according to this project it is NOT 2u-valid
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"2u",result) ;
         log.info(result.getValue()) ;
-        assertEquals( "Failed" , result.getValue() ) ; // should be Passed according to to https://www.pdfen.com/pdf-a-validator
+        assertEquals( "Failed" , result.getValue() ) ; 
+        assertEquals( "2u", result.getFlavourId() ) ;
+//        log.info(result.toString()) ;
+//        assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
+    
 
 }
 

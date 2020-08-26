@@ -70,7 +70,7 @@ public class ControllerApp {
       pdfvalidator.validate(file.getInputStream(),flavourIdAsk,result) ; 
     }
   
-    log.info(filename + " validation: " + result.getValue() + ", flavourId: " + result.getFlavourId() + ", iso: " + result.getIso()) ;
+    log.info(filename + " validation: " + result.toString()) ;
   
     return result  ;
   }

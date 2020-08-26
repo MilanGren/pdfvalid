@@ -24,8 +24,9 @@ public class ProblemExample065Test {
 /*
 according to https://www.pdf-online.com/osa/validate.aspx it is 1b-valid
 according to https://www.pdfen.com/pdf-a-validator it is 1b-valid
-according to VERA online validator https://demo.verapdf.org/ it is NOT 1b-valid
-according to this project it is NOT 1b-valid
+according to VERA online validator https://demo.verapdf.org/ it is NOT 1b-valid, however, it gives Validation Profile 1b
+according to this project it is NOT 1b-valid ('Failed'), but the Validation Profile (represented by flavourId) is 1b (in case of using 'check')
+.. see REMARKS
 */
 
     @Test
@@ -44,6 +45,8 @@ according to this project it is NOT 1b-valid
         Result result = new Result(pdfFilePath) ;
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Failed" , result.getValue() ) ; // no available flavour is ok
+        assertEquals( "0" , result.getFlavourId() )  ;
+        assertEquals( "ISO 0-0:" , result.getIso() )  ;
     }
     
     @Test // searching for any compliance implicitly (by VERA parser itself)
@@ -52,7 +55,10 @@ according to this project it is NOT 1b-valid
         String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
         validator.decide(new FileInputStream(pdfFilePath),result) ;
-        assertEquals( "Failed" , result.getValue() ) ; // no available flavour is ok        
+        assertEquals( "Failed" , result.getValue() ) ; 
+        assertEquals( "1b" , result.getFlavourId() ) ;
+        assertEquals( "ISO 19005-1:2005" , result.getIso() ) ;
+        
     }
 
 }

@@ -26,6 +26,9 @@ public class Result {
       public String getFilename() {return filename ;}
       public String getIso() {return iso ;}
       
+      public String toString() {
+            return "filename: " + filename + ", value: " + getValue() + ", flavourId: " + getFlavourId() + ", iso: " + getIso() ;
+      }
       
       public void setAskedFlavourId(String flavourId) {
             this.flavourId = flavourId ; 

@@ -65,7 +65,7 @@ public class VeraTest {
         validator.tryAllFlavoursGetFirstOccurence(new FileInputStream(pdfFilePath),result) ;
         assertEquals( "Failed" , result.getValue() ) ;
         assertEquals( "ISO 0-0:" , result.getIso() )  ;
-        assertEquals( "3u", result.getFlavourId() ) ; // last asked!
+        assertEquals( "0", result.getFlavourId() ) ; // last asked!
     }
     
     @Test

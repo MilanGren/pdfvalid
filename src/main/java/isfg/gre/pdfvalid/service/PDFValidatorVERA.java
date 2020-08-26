@@ -48,7 +48,8 @@ public class PDFValidatorVERA implements PDFValidator {
         }        
     }
     
-    // this should be the similar to decide(..) but its done explicitly and unlike decide(..) if not .isCompliant() then automatically PDFAFlavour is NO_FLAVOUR with respective iso
+    // this is similar to .decide(..) but its done explicitly and unlike .decide(..) 
+    // if not .isCompliant() then automatically PDFAFlavour is NO_FLAVOUR with respective iso (ISO 0-0:)
     public void tryAllFlavoursGetFirstOccurence(InputStream istream, Result result) throws PDFValidationException {
         
         result.Set(false,PDFAFlavour.NO_FLAVOUR.getId(),PDFAFlavour.NO_FLAVOUR.getPart().getId()) ; // if no succes than no overwrite ..
@@ -72,15 +73,14 @@ public class PDFValidatorVERA implements PDFValidator {
                 if (r.isCompliant()) {
                     result.Set(true,flavour.getId(),flavour.getPart().getId()) ;
                     break ;
-                } else {
-                    result.setAskedFlavourId(flavour.getId()) ;
                 }
             } catch (java.util.NoSuchElementException e) {
                 // there may be flavours defined in PDFAFlavour that can not be processed by validator 
                 //   - PDFAFlavour.NO_FLAVOUR representing not valid pdf by any 'no iso'
                 //   - PDFAFlavour.byFlavourId("4") representing somewhat experimental ..
                 // 
-                // moreover, i havent found any PDFAFlavour suitable attribute saying its experimental (.byFlavourId("4")) or represienting no iso (NO_FLAVOUR)
+                // i havent found any PDFAFlavour suitable attribute saying its experimental (.byFlavourId("4")) or representing no iso (NO_FLAVOUR)
+                // so I covered it by this exception doing nothing.. 
             } catch (ModelParsingException | EncryptedPdfException | ValidationException e) {
                 throw new PDFValidationException("pdf validation error",e);
             }
@@ -110,8 +110,6 @@ public class PDFValidatorVERA implements PDFValidator {
         } catch (ModelParsingException | EncryptedPdfException | ValidationException | NoSuchElementException e) {
             throw new PDFValidationException("pdf validation exception",e);
         }
-     
-
 
     }
 

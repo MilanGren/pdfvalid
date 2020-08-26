@@ -1,7 +1,7 @@
 
 PDF file src/test/resources/example_065.pdf: I downloaded it from the internet (https://tcpdf.org/examples/example_065/) 
-as 1b-valid however different on-line validators give different results.. On-line vera-based validator says its not 1b-valid, this project 
-also says its not 1b-valid (see tests), HOWEVER it returns 'validation profile' 1b.
+as 1b-valid, however, different on-line validators give different results.. On-line vera-based validator says its not 1b-valid, this project 
+also says its not 1b-valid (see tests), HOWEVER, they both return 'validation profile' 1b.
 
 .. very similar situation is about src/test/resources/latex_for_beginner-2u.pdf (converted to be valid by https://www.pdfen.com/pdf-a-validator)
 
