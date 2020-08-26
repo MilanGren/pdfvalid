@@ -1,5 +1,3 @@
-curl -X POST -F file=@..//src/test/resources/latex_for_beginner-2u.pdf -F check=true http://localhost:8080/pdfvalid  
-exit
 
 echo "EXAMPLE - is just valid"
 curl -X POST -F file=@../src/test/resources/validpdf_A-1b.pdf -F check=true http://localhost:8080/pdfvalid  
