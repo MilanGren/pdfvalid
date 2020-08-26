@@ -32,12 +32,11 @@ according to this project it is NOT 2u-valid. However, the Validation Profile (r
         PDFValidator validator = new PDFValidatorVERA() ;
         String pdfFilePath = Paths.get("src","test","resources","latex_for_beginner-2u.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
-        validator.validate(new FileInputStream(pdfFilePath),"2u",result) ;
+        validator.decide(new FileInputStream(pdfFilePath),result) ;
         log.info(result.getValue()) ;
         assertEquals( "Failed" , result.getValue() ) ; 
         assertEquals( "2u", result.getFlavourId() ) ;
-//        log.info(result.toString()) ;
-//        assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
+        assertEquals( "ISO 19005-2:2011" , result.getIso() )  ;
     }
     
 
