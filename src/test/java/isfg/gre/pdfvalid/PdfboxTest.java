@@ -106,9 +106,21 @@ public class PdfboxTest {
     }
 
 
+    private void docinfo(PDDocument doc) throws java.io.IOException {
+        PDPageTree pages = doc.getPages();
+        int len = pages.getCount();
+        for (int i = 0; i < len; i++) {
+          PDPage pg = pages.get(i);
+          PDResources resources = pg.getResources();
+          for(COSName key : resources.getFontNames()) {
+            PDFont fnt = resources.getFont(key);
+            log.info(fnt.getFontDescriptor().getFontName());
+            //resources.put(key, font) ;
+          }
+        }    
+    }
+
     public void createValidPDf(int flavourIdint, String startingPDFile,String fontPath) throws java.io.IOException, org.apache.xmpbox.type.BadFieldValueException, javax.xml.transform.TransformerException {
-
-
 
         PDDocument doc ;
 
@@ -117,23 +129,11 @@ public class PdfboxTest {
             file = new File(startingPDFile);
             doc = PDDocument.load(file);
         } else { // start very new document
-          // doc = new PDDocument() ;
+            doc = new PDDocument() ;
         }
 
         PDFont font = PDType0Font.load(doc, new File(fontPath));
-
-      // zmena fontu na strane 0
-        PDPage page0 = doc.getPage(0);
-
-
-        PDResources resources = page0.getResources();
-
-        for(COSName key : resources.getFontNames()) {
-            PDFont fnt = resources.getFont(key);
-            log.info(fnt.getFontDescriptor().getFontName());
-            //resources.put(key, font) ;
-        }
-
+/*
         PDPageContentStream contents0 = new PDPageContentStream(doc, page0, AppendMode.APPEND, true, true) ;
         contents0.beginText();
         contents0.setFont(font, 18);
@@ -142,10 +142,9 @@ public class PdfboxTest {
         contents0.showText(text);
         contents0.endText();
         contents0.close();
-
+*/
         PDPage page = new PDPage();
         doc.addPage(page);
-
 
         String message = "ahoj ahoj ahoj";
  	            // load the font as this needs to be embedded
@@ -154,7 +153,7 @@ public class PdfboxTest {
             throw new IllegalStateException("PDF/A compliance requires that all fonts used for text rendering in rendering modes other than rendering mode 3 are embedded.");
         }
 
-        PDPageContentStream contents = new PDPageContentStream(doc, page) ;
+        PDPageContentStream contents = new PDPageContentStream(doc, page) ;  // contents se tyka jen pridavane stranky
         contents.beginText();
         contents.setFont(font, 12);
         contents.newLineAtOffset(100, 700);
@@ -173,7 +172,8 @@ public class PdfboxTest {
 
         PDMetadata metadata = new PDMetadata(doc);
         metadata.importXMPMetadata(baos.toByteArray());
-        doc.getDocumentCatalog().setMetadata(metadata);
+
+        doc.getDocumentCatalog().setMetadata(metadata); //CO TOTO DELA?
 
         InputStream colorProfile = new FileInputStream(
 
@@ -189,6 +189,8 @@ public class PdfboxTest {
 
         doc.save(Paths.get("src","test","tmp","validated.pdf").toFile().getAbsolutePath()) ;
 
+        docinfo(doc) ;
+
         doc.close() ;
         
     }
@@ -201,8 +203,8 @@ public class PdfboxTest {
     @Test
     public void TEST_IS_VALID() throws PDFValidationException, FileNotFoundException, java.io.IOException, org.apache.xmpbox.type.BadFieldValueException, javax.xml.transform.TransformerException {
     
-        createValidPDf(2,Paths.get("src","test","resources","fonts.pdf").toFile().getAbsolutePath(),
-                                   Paths.get("src","test","resources","Pacifico.ttf").toFile().getAbsolutePath()
+        createValidPDf(2,Paths.get("src","test","resources","notvalid.pdf").toFile().getAbsolutePath(),
+                         Paths.get("src","test","resources","Pacifico.ttf").toFile().getAbsolutePath()
         ) ;
         
 //        createValidPDf(2,"/home/gre/java/maven/pdfvalid/src/test/resources/notvalid.pdf") ;
