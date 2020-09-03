@@ -42,7 +42,7 @@ public class PdfboxTest {
 
     private static final Logger log = LoggerFactory.getLogger(PdfboxTest.class) ;
     
-    public void addInformation(PDDocument document) {
+    private void addInformation(PDDocument document) {
       PDDocumentInformation pdd = document.getDocumentInformation();
 
       //Setting the author of the document
@@ -68,8 +68,9 @@ public class PdfboxTest {
       //Setting keywords for the document 
       pdd.setKeywords("sample, first example, my pdf"); 
     }
-    
-//    @Test
+
+
+
     public void createPdf(String fontPath) throws java.io.IOException {
       PDDocument document = new PDDocument();    
 
@@ -95,9 +96,13 @@ public class PdfboxTest {
       contentStream.endText();
       contentStream.close();  
 
-      addInformation(document) ; 
+      addInformation(document) ;
 
-      document.save("/home/gre/java/maven/pdfvalid/src/test/java/isfg/gre/pdfvalid/MYPDF.pdf");
+      String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
+
+      document.save(pdfFilePath);
+
+
       document.close() ;
       
     }
@@ -147,7 +152,9 @@ public class PdfboxTest {
       metadata.importXMPMetadata(baos.toByteArray());
       doc.getDocumentCatalog().setMetadata(metadata);
 
-      InputStream colorProfile = new FileInputStream("/home/gre/Downloads/sRGB.icc"); //PdfboxTest.class.getResourceAsStream("/home/gre/Downloads/sRGB.icc") ;
+      InputStream colorProfile = new FileInputStream(
+
+      Paths.get("src","test","resources","Adobe_ICC_Profiles_end-user","RGB","AdobeRGB1998.icc").toFile().getAbsolutePath()) ;
 
       PDOutputIntent intent = new PDOutputIntent(doc, colorProfile);
 
@@ -157,24 +164,29 @@ public class PdfboxTest {
       intent.setRegistryName("http://www.color.org");
       doc.getDocumentCatalog().addOutputIntent(intent);
 
-      doc.save("/home/gre/java/maven/pdfvalid/src/test/java/isfg/gre/pdfvalid/validated.pdf");
+      doc.save(Paths.get("src","test","tmp","validated.pdf").toFile().getAbsolutePath()) ;
 
       doc.close() ;
         
     }
 
     @Test
+    public void createPdf_PacificoTTF_Test() throws java.io.IOException {
+        createPdf(Paths.get("src","test","resources","Pacifico.ttf").toFile().getAbsolutePath()) ;
+    }
+
+    @Test
     public void TEST_IS_VALID() throws PDFValidationException, FileNotFoundException, java.io.IOException, org.apache.xmpbox.type.BadFieldValueException, javax.xml.transform.TransformerException {
     
-        createValidPDf(2,"/home/gre/java/maven/pdfvalid/src/test/java/isfg/gre/pdfvalid/MYPDF.pdf",
+        createValidPDf(1,Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath(),
 //                         "/home/gre/pdfbox/pdfbox/src/main/resources/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"
-                         "/home/gre/Downloads/fonts/Pacifico.ttf"
+                                   Paths.get("src","test","resources","Pacifico.ttf").toFile().getAbsolutePath()
         ) ;
         
 //        createValidPDf(2,"/home/gre/java/maven/pdfvalid/src/test/resources/notvalid.pdf") ;
 
         PDFValidator validator = new PDFValidatorVERA() ;
-        String pdfFilePath = Paths.get("src","test","java","isfg","gre","pdfvalid","validated.pdf").toFile().getAbsolutePath() ;
+        String pdfFilePath = Paths.get("src","test","tmp","validated.pdf").toFile().getAbsolutePath() ;
         Result result = new Result(pdfFilePath) ;
         validator.decide(new FileInputStream(pdfFilePath),result) ;
         
