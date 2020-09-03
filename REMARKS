@@ -16,3 +16,16 @@ it seems that in case of VERA based validator we have 'two' levels of pdf valida
 
 
 
+******************* Pdfbox things ******
+
+konverzi na 2b celkem nevadi, jestli prvni loadovanej soubor pouzil jinej font
+
+konverzi na 1b vadi i kdyz loadovanej soubor ma stejnej font
+
+
+
+
+
+
+
+https://apache.googlesource.com/pdfbox

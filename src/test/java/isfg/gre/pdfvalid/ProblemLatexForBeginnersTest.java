@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 
 // junit
 import static org.junit.Assert.* ;
+import org.junit.Ignore ;
 import org.junit.Test;
 
+@Ignore
 public class ProblemLatexForBeginnersTest {
 
     private static final Logger log = LoggerFactory.getLogger(ProblemLatexForBeginnersTest.class) ;
