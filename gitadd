@@ -1,4 +1,4 @@
-rm examples/curl_examples~
+rm -f examples/curl_examples~
 git add pom.xml src/
 git add gitadd .gitignore REMARKS
 git add examples/*

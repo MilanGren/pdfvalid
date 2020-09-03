@@ -28,4 +28,8 @@ konverzi na 1b vadi i kdyz loadovanej soubor ma stejnej font
 
 
 
-https://apache.googlesource.com/pdfbox
+repozitar pdfbox: https://apache.googlesource.com/pdfbox
+
+zkusit  iTextpdf
+
+zkusit https://memorynotfound.com/apache-pdfbox-extract-embedded-font-pdf-document/
