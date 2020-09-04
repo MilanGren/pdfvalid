@@ -129,6 +129,17 @@ public class VeraTest {
         Result result = new Result(pdfFilePath) ;
         validator.validate(new FileInputStream(pdfFilePath),"2bx",result) ;    
     }
-    
+
+    @Test
+    public void TEST_IS_VALID_3() throws PDFValidationException, FileNotFoundException {
+        PDFValidator validator = new PDFValidatorVERA() ;
+        String pdfFilePath = Paths.get("src","test","resources","1a.pdf").toFile().getAbsolutePath() ;
+        Result result = new Result(pdfFilePath) ;
+        validator.validate(new FileInputStream(pdfFilePath),"1a",result) ;
+        assertEquals( "Passed" , result.getValue() ) ;
+        assertEquals( "1a" , result.getFlavourId() ) ;
+    }
+
+
 }
 

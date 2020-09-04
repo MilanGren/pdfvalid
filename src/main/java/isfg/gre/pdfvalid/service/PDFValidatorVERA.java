@@ -10,6 +10,7 @@ import java.io.IOException ;
 import org.verapdf.pdfa.VeraGreenfieldFoundryProvider;
 import org.verapdf.pdfa.Foundries;
 import org.verapdf.pdfa.PDFAParser;
+import org.verapdf.pdfa.results.TestAssertion;
 import org.verapdf.pdfa.results.ValidationResult;
 import org.verapdf.pdfa.PDFAValidator;
 import org.verapdf.pdfa.flavours.PDFAFlavour;
@@ -33,6 +34,15 @@ public class PDFValidatorVERA implements PDFValidator {
 
     public PDFValidatorVERA() {
         VeraGreenfieldFoundryProvider.initialise();        
+    }
+
+    private void printDetails(ValidationResult r) {
+        log.info(r.getProfileDetails().toString()) ;
+        for(TestAssertion asrt: r.getTestAssertions()) {
+            log.info(asrt.getStatus().toString() + " - " + asrt.getRuleId() + ": " + asrt.getMessage()) ;
+            log.info("---") ;
+            log.info("---") ;
+        }
     }
 
     // if you are not sure what PDF/A specification to use you can let the software decide
@@ -68,7 +78,7 @@ public class PDFValidatorVERA implements PDFValidator {
                 copyStream = new ByteArrayInputStream(buffer);
                 PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
                 PDFAParser parser = Foundries.defaultInstance().createParser(copyStream,flavour) ;
-                ValidationResult r = validator.validate(parser); 
+                ValidationResult r = validator.validate(parser);
                 log.info(" .. appling flavourid " + flavour.getId()) ;
                 if (r.isCompliant()) {
                     result.Set(true,flavour.getId(),flavour.getPart().getId()) ;
@@ -100,13 +110,13 @@ public class PDFValidatorVERA implements PDFValidator {
             PDFAValidator validator = Foundries.defaultInstance().createValidator(flavour, false);
             PDFAParser parser = Foundries.defaultInstance().createParser(istream,flavour) ;
             ValidationResult r = validator.validate(parser);
-        
+
             if (r.isCompliant()) {
                 result.Set(true,askedFlavourId,flavour.getPart().getId()) ;
             } else {
                 result.Set(false,askedFlavourId,PDFAFlavour.NO_FLAVOUR.getPart().getId()) ;
             }
-            
+            printDetails(r) ;
         } catch (ModelParsingException | EncryptedPdfException | ValidationException | NoSuchElementException e) {
             throw new PDFValidationException("pdf validation exception",e);
         }
