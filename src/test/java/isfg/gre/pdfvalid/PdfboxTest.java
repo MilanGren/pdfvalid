@@ -4,11 +4,13 @@ package isfg.gre.pdfvalid ;
 import java.io.*;
 import java.nio.file.Paths ;
 
+import isfg.gre.pdfvalid.service.PDFAConvertorPDFBOX;
 import isfg.gre.pdfvalid.service.PDFValidatorVERA ;
 
 // logger
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.*; // TODO HACK hnus hnus
+import org.apache.pdfbox.pdmodel.font.*;
 import org.apache.xmpbox.type.BadFieldValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,6 @@ import org.junit.Test;
 
 // 
 import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode ;
-import org.apache.pdfbox.pdmodel.font.PDType1Font ;
 import org.apache.xmpbox.XMPMetadata ;
 //import org.apache.jempbox.xmp.pdfa.XMPSchemaPDFAId ;
 import org.apache.xmpbox.schema.PDFAIdentificationSchema;
@@ -26,14 +27,17 @@ import org.apache.xmpbox.xml.XmpSerializer;
 import org.apache.pdfbox.pdmodel.graphics.color.PDOutputIntent ;
 
 import org.apache.pdfbox.pdmodel.common.PDMetadata;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType0Font ;
 
 import javax.xml.transform.TransformerException;
 
 public class PdfboxTest {
 
     private static final Logger log = LoggerFactory.getLogger(PdfboxTest.class) ;
+
+
+    public static <T> void LOG(T t)  { // TODO vyhodit
+        System.out.println("LOG: " + t) ;
+    }
 
     private void getInformation(PDDocument document) {
         PDDocumentInformation pdd = document.getDocumentInformation();
@@ -66,39 +70,54 @@ public class PdfboxTest {
 
 
 
-    public void createPdf(String fontPath) throws java.io.IOException {
-      PDDocument document = new PDDocument();    
+    public void createPdf(String fontPath, String text) throws java.io.IOException {
+        PDDocument document = new PDDocument();
 
-      for (int i=0; i<1; i++) {
-        PDPage blankPage = new PDPage();
-        document.addPage( blankPage );
-      }
-      
-      PDFont font ;
-      if (true) {
-        font = PDType0Font.load(document, new File(fontPath));
-      } else {
-        font = PDType1Font.TIMES_ROMAN ;
-      }
-      
-      PDPage page = document.getPage(0);
-      PDPageContentStream contentStream = new PDPageContentStream(document, page);
-      contentStream.beginText(); 
-      contentStream.setFont(font, 22);
-      contentStream.newLineAtOffset(25, 500);
-      String text = "ahoj Milan Gren ahoj";
-      contentStream.showText(text);      
-      contentStream.endText();
-      contentStream.close();  
+        for (int i=0; i<1; i++) {
+            PDPage blankPage = new PDPage();
+            document.addPage( blankPage );
+        }
 
-      //setInformation(document) ;
+        PDFont font ;
+        if (true) {
+            font = PDType0Font.load(document, new File(fontPath));
+        } else {
+            font = PDType1Font.TIMES_ROMAN ;
+        }
 
-      String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
+        PDPage page = document.getPage(0);
 
-      document.save(pdfFilePath);
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+        contentStream.beginText();
+        contentStream.setFont(font, 22);
+        contentStream.newLineAtOffset(25, 500);
+        contentStream.showText(text);
+        contentStream.endText();
+        contentStream.close();
 
+        contentStream = new PDPageContentStream(document, page, AppendMode.APPEND,true);
+        contentStream.beginText();
+        contentStream.setFont(font, 62);
+        contentStream.endText();
+        contentStream.close();
 
-      document.close() ;
+        //setInformation(document) ;
+
+        String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
+
+        document.save(pdfFilePath);
+
+        for (PDPage pg : document.getPages()) {
+            PDResources resources = pg.getResources();
+
+            for (COSName cosName : resources.getFontNames()) {
+                LOG("cosName: " + cosName.toString()) ;
+                font = resources.getFont(cosName);
+                LOG("font used in MYPDF: " + font.getName()) ;
+            }
+        }
+
+        document.close() ;
       
     }
 
@@ -244,10 +263,7 @@ public class PdfboxTest {
         
     }
 
-    @Test
-    public void createPdf_PacificoTTF_Test() throws java.io.IOException {
-        createPdf(Paths.get("src","test","resources","ttf","Pacifico.ttf").toFile().getAbsolutePath()) ;
-    }
+
 
     @Test
     public void TEST_MERGE_PDFs_AND_VALIDATE() throws PDFValidationException, FileNotFoundException, java.io.IOException, org.apache.xmpbox.type.BadFieldValueException, javax.xml.transform.TransformerException {
@@ -271,7 +287,27 @@ public class PdfboxTest {
         log.info("") ;
         log.info("") ;
 
-    }  
+    }
+
+    @Test
+    public void createPdf_PacificoTTF_Test() throws java.io.IOException {
+        createPdf(Paths.get("src","test","resources","ttf","Pacifico.ttf").toFile().getAbsolutePath(),"") ;
+    }
+
+    @Test
+    public void TEST_CHECK_FONTS() throws Exception {
+        PDFAConvertorPDFBOX pdfbox = new PDFAConvertorPDFBOX() ;
+
+        //pdfbox.fontInfo(Paths.get("src","test","resources","notvalid.pdf").toFile().getAbsolutePath());
+        pdfbox.pokus(Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath());
+        //pdfbox.pokus(Paths.get("src","test","resources","latex_for_beginner.pdf").toFile().getAbsolutePath());
+
+    }
 
 }
+
+
+
+
+
 
