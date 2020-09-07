@@ -1,0 +1,55 @@
+
+PDF file src/test/resources/example_065.pdf: I downloaded it from the internet (https://tcpdf.org/examples/example_065/) 
+as 1b-valid, however, different on-line validators give different results.. On-line vera-based validator says its not 1b-valid, this project 
+also says its not 1b-valid (see tests), HOWEVER, they both return 'validation profile' 1b.
+
+.. very similar situation is about src/test/resources/latex_for_beginner-2u.pdf (converted to be valid by https://www.pdfen.com/pdf-a-validator)
+
+
+
+
+it seems that in case of VERA based validator we have 'two' levels of pdf validation results:
+
+1. Validation Profile (represented by flavourId in this project) which gives consistent results with other online validators
+2. PDF/A compliance: even if Validation Profile is for example 1b, the result may be 'Failed'
+
+
+
+
+******************* Pdfbox things ******
+
+konverzi na 2b celkem nevadi, jestli prvni loadovanej soubor pouzil jinej font
+
+konverzi na 1b vadi i kdyz loadovanej soubor ma stejnej font
+
+
+pokud spojim dve pdfka, pricemz obe vytvorim v PDFBOX, potom
+
+	2b: prochazi 'vzdy'
+	1b: prochazi jen kdyz pouziju setInformation az tesne pred save
+
+** rozdil mezi FONT-TYPE1 a FONT-TRUETYPE
+	https://stackoverflow.com/questions/56176890/apache-pdfbox-difference-among-pdfont-types
+
+
+	
+????? -proc se loaduje ttf vzdy spolu s doc??
+
+
+
+
+src/test/resources/sample-FONT_NOT_EMBEDED.pdf - je pdf1.3 a pdffonts neukazuje jakekoli fonty. nicmene acrobat reader ano (jsou to defaultni fonty kdyz zadne nejsou embeded??)
+						- pdffonts rika Helvetice, ale not embeded. Takze nejaky zaznam o Helvetice tam asi je.
+						- (pokracovani) takze pokud bych nahral jiny font (napr Pacifico), tak co???
+
+repozitar pdfbox: https://apache.googlesource.com/pdfbox
+
+zkusit  iTextpdf
+
+zkusit https://memorynotfound.com/apache-pdfbox-extract-embedded-font-pdf-document/
+	- log of fonts used in the doc works good i think
+
+zkusit http://www.kscodes.com/java/load-various-font-files-apache-pdfbox/
+	- Load a Truetype font VS Load a Type 0 font
+
+
