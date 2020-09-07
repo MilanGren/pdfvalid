@@ -28,16 +28,20 @@ pokud spojim dve pdfka, pricemz obe vytvorim v PDFBOX, potom
 	2b: prochazi 'vzdy'
 	1b: prochazi jen kdyz pouziju setInformation az tesne pred save
 	
+????? -proc se loaduje ttf vzdy spolu s doc??
 
-
-
-
+src/test/resources/sample-FONT_NOT_EMBEDED.pdf - je pdf1.3 a pdffonts neukazuje jakekoli fonty. nicmene acrobat reader ano (jsou to defaultni fonty kdyz zadne nejsou embeded??)
+						- pdffonts rika Helvetice, ale not embeded. Takze nejaky zaznam o Helvetice tam asi je.
+						- (pokracovani) takze pokud bych nahral jiny font (napr Pacifico), tak co???
 
 repozitar pdfbox: https://apache.googlesource.com/pdfbox
 
 zkusit  iTextpdf
 
 zkusit https://memorynotfound.com/apache-pdfbox-extract-embedded-font-pdf-document/
+	- log of fonts used in the doc works good i think
 
+zkusti http://www.kscodes.com/java/load-various-font-files-apache-pdfbox/
+	- Load a Truetype font VS Load a Type 0 font
 
 

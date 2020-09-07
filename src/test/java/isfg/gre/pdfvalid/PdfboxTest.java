@@ -85,11 +85,15 @@ public class PdfboxTest {
             font = PDType1Font.TIMES_ROMAN ;
         }
 
+        for(int ind = 1 ; ind < 10000; ind++) {
+            LOG(font.toUnicode(ind)) ;
+        }
+
         PDPage page = document.getPage(0);
 
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
         contentStream.beginText();
-        contentStream.setFont(font, 22);
+        contentStream.setFont(font, 22) ;
         contentStream.newLineAtOffset(25, 500);
         contentStream.showText(text);
         contentStream.endText();
@@ -104,7 +108,7 @@ public class PdfboxTest {
         //setInformation(document) ;
 
         String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
-
+   ;
         document.save(pdfFilePath);
 
         for (PDPage pg : document.getPages()) {
@@ -291,11 +295,26 @@ public class PdfboxTest {
 
     @Test
     public void createPdf_PacificoTTF_Test() throws java.io.IOException {
-        createPdf(Paths.get("src","test","resources","ttf","Pacifico.ttf").toFile().getAbsolutePath(),"") ;
+        createPdf(Paths.get("src","test","resources","ttf","LiberationSerif-Regular.ttf").toFile().getAbsolutePath(),"a") ;
+    }
+
+
+    @Test
+    public void TEST_SUBSET() {
+
     }
 
     @Test
     public void TEST_CHECK_FONTS() throws Exception {
+
+
+
+        /*
+        ascii 'a' - hex dec 97 61
+
+
+         */
+
         PDFAConvertorPDFBOX pdfbox = new PDFAConvertorPDFBOX() ;
 
         //pdfbox.fontInfo(Paths.get("src","test","resources","notvalid.pdf").toFile().getAbsolutePath());
