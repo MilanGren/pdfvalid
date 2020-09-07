@@ -9,9 +9,11 @@ import isfg.gre.pdfvalid.service.PDFConvertorPDFBOX ;
 
 
 // logger
+import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.*; // TODO HACK hnus hnus
 import org.apache.pdfbox.pdmodel.font.*;
+import org.apache.pdfbox.pdmodel.font.encoding.Encoding;
 import org.apache.xmpbox.type.BadFieldValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,6 +191,60 @@ public class PdfboxTest {
     }
 
     @Test
+    public  void truefont_TEST() throws IOException {
+        // inputs
+        String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
+        String convertedPdfFilePath = Paths.get("src","test","tmp","MYPDF-validated.pdf").toFile().getAbsolutePath() ;
+        String fontPath = Paths.get("src","test","resources","ttf","LiberationSerif-Regular.ttf").toFile().getAbsolutePath() ;
+        String flavourId = "2b" ;
+
+        // generate simple pdf with text as argument
+        PDDocument document = new PDDocument();
+
+        //PDFont font = PDType0Font.load(document, new File(fontPath));
+
+        PDFont font2 = PDType0Font.load(document, new File(fontPath));
+
+        PDFont font ;
+
+
+        Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
+        font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
+
+        LOG(font.getSubType()) ;
+        LOG(font2.getSubType()) ;
+
+
+        //Encoding e = Encoding.getInstance(COSName.) ;
+
+
+        //COSName.getPDFName(pdfFilePath) ;
+
+
+
+        //font = PDType1Font.TIMES_ROMAN ;
+
+
+        //LOG(font.toUnicode(321)) ;
+
+        //createPdf(document, font, "a") ;
+        document.save(pdfFilePath);
+        document.close() ;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Test
     public void CreateSimplePdf_TEST() throws java.io.IOException, BadFieldValueException, TransformerException {
         // inputs
         String pdfFilePath = Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath() ;
@@ -200,11 +256,13 @@ public class PdfboxTest {
         PDDocument document = new PDDocument();
 
         PDFont font ;
-        if (false) {
+        if (true) {
             // load fonts into plain doc to be embeded
             font = PDType0Font.load(document, new File(fontPath));
+//            Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
+//            font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
         } else {
-            font = PDType1Font.TIMES_ROMAN ;  //  Postscript Type-1, vector based
+//            font = PDType1Font.TIMES_ROMAN ;  //  Postscript Type-1, vector based
 
         }
 
@@ -212,7 +270,10 @@ public class PdfboxTest {
         document.save(pdfFilePath);
         document.close() ;
 
+
         document = PDDocument.load(new File(pdfFilePath));
+        //document = PDDocument.load(new File(Paths.get("src","test","resources","sample-FONT_NOT_EMBEDED.pdf").toFile().getAbsolutePath()));
+
 
         if (true) {
             // debug print of fonts used (+ they are by save processed by subset method)
@@ -222,27 +283,31 @@ public class PdfboxTest {
                 for (COSName cosName : resources.getFontNames()) {
                     LOG("cosName: " + cosName.toString());
                     fontUsed = resources.getFont(cosName);
+                    COSBase encoding = fontUsed.getCOSObject().getDictionaryObject(COSName.ENCODING);
                     LOG("font used in created pdf file: " + fontUsed.getName());
+                    LOG(encoding.toString()) ;
                 }
             }
         }
 
         PDFont font2 ;
-        if (false) {
-            //
-            font2 = PDType0Font.load(document, new File(fontPath));
+        boolean font2isTrueType = true ;
+        if (font2isTrueType) {
+            //font2 = PDType0Font.load(document, new File(fontPath));
+            Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
+            font2 = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
         } else {
-            font2 = PDType1Font.COURIER_BOLD ;
+//            font2 = PDType1Font.COURIER_BOLD ; // tady velke pdfbox logy
         }
-
-        if (true) {
-            // debug print of fonts used (+ they are by save processed by subset method)
+        boolean peformFontReplace = true ;
+        if (peformFontReplace) {
+            // replacing fonts. If font2isTrueType is false then it works
             PDFont fontUsed;
             for (PDPage pg : document.getPages()) {
                 PDResources resources = pg.getResources();
                 for (COSName cosName : resources.getFontNames()) {
                     LOG("cosName: " + cosName.toString());
-                    resources.put(cosName, font2) ;
+//                    resources.put(cosName, font2) ;
                     fontUsed = resources.getFont(cosName);
                     LOG("font used in file processed by making it valid: " + fontUsed.getName());
                 }
