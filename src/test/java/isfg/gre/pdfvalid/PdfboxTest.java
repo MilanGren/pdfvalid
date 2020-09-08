@@ -11,6 +11,7 @@ import isfg.gre.pdfvalid.service.PDFConvertorPDFBOX ;
 // logger
 import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.cos.COSStream;
 import org.apache.pdfbox.pdmodel.*; // TODO HACK hnus hnus
 import org.apache.pdfbox.pdmodel.font.*;
 import org.apache.pdfbox.pdmodel.font.encoding.Encoding;
@@ -62,16 +63,16 @@ public class PdfboxTest {
       pdd.setTitle("Rumburak Sample document");
       pdd.setCreator("Rumburak PDF Examples");
       pdd.setSubject("Rumburak Example document");
-       
-      //Setting the created date of the document 
+
+      //Setting the created date of the document
 //      Calendar date = new GregorianCalendar();
 //      date.set(2015, 11, 5);
 //      pdd.setCreationDate(date);
-      //Setting the modified date of the document 
+      //Setting the modified date of the document
  //     date.set(2016, 6, 5);
  //     pdd.setModificationDate(date);
-       
-      //Setting keywords for the document 
+
+      //Setting keywords for the document
  //     pdd.setKeywords("sample, first example, my pdf");
     }
 
@@ -201,37 +202,18 @@ public class PdfboxTest {
         // generate simple pdf with text as argument
         PDDocument document = new PDDocument();
 
-        //PDFont font = PDType0Font.load(document, new File(fontPath));
-
-        PDFont font2 = PDType0Font.load(document, new File(fontPath));
-
-        PDFont font ;
-
-
         Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
-        font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
+        PDFont font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
 
-        LOG(font.getSubType()) ;
-        LOG(font2.getSubType()) ;
+        LOG(font.toUnicode(97)) ;
 
+        font.getToUnico
 
-        //Encoding e = Encoding.getInstance(COSName.) ;
-
-
-        //COSName.getPDFName(pdfFilePath) ;
-
-
-
-        //font = PDType1Font.TIMES_ROMAN ;
-
-
-        //LOG(font.toUnicode(321)) ;
-
-        //createPdf(document, font, "a") ;
-        document.save(pdfFilePath);
         document.close() ;
     }
 
+
+    //COSStream toUnicodeStream = new COSStream();
 
 
 
@@ -256,13 +238,13 @@ public class PdfboxTest {
         PDDocument document = new PDDocument();
 
         PDFont font ;
-        if (true) {
+        if (false) {
             // load fonts into plain doc to be embeded
             font = PDType0Font.load(document, new File(fontPath));
 //            Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
 //            font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
         } else {
-//            font = PDType1Font.TIMES_ROMAN ;  //  Postscript Type-1, vector based
+            font = PDType1Font.TIMES_ROMAN ;  //  Postscript Type-1, vector based
 
         }
 
@@ -297,21 +279,24 @@ public class PdfboxTest {
             Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
             font2 = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
         } else {
-//            font2 = PDType1Font.COURIER_BOLD ; // tady velke pdfbox logy
+            font2 = PDType1Font.COURIER_BOLD ; // tady velke pdfbox logy
         }
         boolean peformFontReplace = true ;
+
         if (peformFontReplace) {
             // replacing fonts. If font2isTrueType is false then it works
-            PDFont fontUsed;
+            PDFont fontUsed ;
             for (PDPage pg : document.getPages()) {
                 PDResources resources = pg.getResources();
                 for (COSName cosName : resources.getFontNames()) {
                     LOG("cosName: " + cosName.toString());
-//                    resources.put(cosName, font2) ;
+                    resources.put(cosName, font2) ;         // az tohle aktivuje 'embeded'..
                     fontUsed = resources.getFont(cosName);
                     LOG("font used in file processed by making it valid: " + fontUsed.getName());
                 }
             }
+
+
         }
 
         // converting to desired flavourId
@@ -322,6 +307,8 @@ public class PdfboxTest {
         // testing validity
         LOG(testValidity(pdfFilePath,flavourId)) ;
         LOG(testValidity(convertedPdfFilePath,flavourId)) ;
+
+
 
     }
 
