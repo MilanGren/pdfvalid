@@ -1,0 +1,28 @@
+
+
+# ZDROJE
+https://ask.libreoffice.org/en/question/76447/pdfa-export-different-results-headless-vs-gui/
+!!!!!! https://www.datalogics.com/blog/pdf-tips/microsoft-office-to-pdf-automating-conversion/
+https://ubuntuforums.org/showthread.php?t=2283711
+https://github.com/LibreOffice/core/blob/master/officecfg/registry/schema/org/openoffice/Office/Common.xcs
+
+
+
+# METODIKA
+
+1. do '~/.config/libreoffice/4/user/registrymodifications.xcu' pridam
+
+<item oor:path="/org.openoffice.Office.Common/Filter/PDF/Export">
+  <prop oor:name="SelectPdfVersion" oor:op="fuse">
+    <value>1</value>             # TOTO UDELA 1a - moje linux distribuce libreoffice nedava 2b (nevim ted proc)
+  </prop>
+</item>
+
+
+2. spustim 
+libreoffice --headless --convert-to pdf:writer_pdf_Export --outdir slozka_vystup notvalid.pdf
+
+
+3. pokud chci znovam, musim znova udelat bod 1, protoze to system prepise puvodnim
+
+

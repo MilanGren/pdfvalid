@@ -15,6 +15,7 @@ import org.apache.pdfbox.cos.COSStream;
 import org.apache.pdfbox.pdmodel.*; // TODO HACK hnus hnus
 import org.apache.pdfbox.pdmodel.font.*;
 import org.apache.pdfbox.pdmodel.font.encoding.Encoding;
+import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 import org.apache.xmpbox.type.BadFieldValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,10 +99,7 @@ public class PdfboxTest {
         contentStream.showText(text);
         contentStream.endText();
         contentStream.close();
-
         //setInformation(document) ;
-
-
 
     }
 
@@ -140,55 +138,28 @@ public class PdfboxTest {
         doc.getDocumentCatalog().addOutputIntent(intent);
     }
 
-//    @Test
-    public void makeValidOnePDF() throws IOException, BadFieldValueException, TransformerException {
-        // input
-        int flavourIdint = 1 ;
-        String startingPDFile = Paths.get("src","test","resources","fonts-1a_valid.pdf").toFile().getAbsolutePath() ;
+    @Test
+    public void makeValidOnePDF_TEST() throws IOException, BadFieldValueException, TransformerException {
+
+        // inputs
+        String pdfFilePath = Paths.get("src","test","resources","example_065.pdf").toFile().getAbsolutePath() ;
+        String convertedPdfFilePath = Paths.get("src","test","tmp","example_065-validated.pdf").toFile().getAbsolutePath() ;
         String fontPath = Paths.get("src","test","resources","ttf","LiberationSerif-Regular.ttf").toFile().getAbsolutePath() ;
-        // --
+        String flavourId = "2b" ;
 
-        String flavourId = Integer.toString(flavourIdint) + "b";
+        PDDocument document ;
 
-        PDDocument doc ;
+        File file = new File(pdfFilePath);
+        document = PDDocument.load(file);
 
-        File file = new File(startingPDFile);
-        doc = PDDocument.load(file);
+        LOG( testValidity(pdfFilePath,flavourId) ) ;
 
-        PDFValidator validator = new PDFValidatorVERA() ;
-        Result result = new Result(startingPDFile) ;
-        validator.validate(new FileInputStream(startingPDFile),flavourId,result) ;
-        log.info("") ;
-        log.info("") ;
-        log.info(result.toString()) ;
-        log.info("") ;
-        log.info("") ;
+        makePdfValid(document,flavourId) ;
+        document.save(convertedPdfFilePath) ;
+        document.close() ;
 
-        getInformation(doc) ;
+        LOG( testValidity(convertedPdfFilePath,flavourId) ) ;
 
-        PDFont font = PDType0Font.load(doc, new File(fontPath)); // loading font into doc?? opravdu??
-
-        if (!font.isEmbedded()) {
-            throw new IllegalStateException("PDF/A compliance requires that all fonts used for text rendering in rendering modes other than rendering mode 3 are embedded.");
-        }
-
-        //makePdfValid(doc,flavourIdint); ;
-
-        String validatedPath = Paths.get("src","test","tmp","validated.pdf").toFile().getAbsolutePath() ;
-
-        doc.save(validatedPath) ;
-        //setInformation(doc);
-        getInformation(doc);
-        doc.close() ;
-
-        validator = new PDFValidatorVERA() ;
-        result = new Result(validatedPath) ;
-        validator.validate(new FileInputStream(validatedPath),flavourId,result) ;
-        log.info("") ;
-        log.info("") ;
-        log.info(result.toString()) ;
-        log.info("") ;
-        log.info("") ;
     }
 
     @Test
@@ -202,29 +173,20 @@ public class PdfboxTest {
         // generate simple pdf with text as argument
         PDDocument document = new PDDocument();
 
+
+
         Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
         PDFont font = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
 
         LOG(font.toUnicode(97)) ;
 
-        font.getToUnico
+
 
         document.close() ;
     }
 
 
     //COSStream toUnicodeStream = new COSStream();
-
-
-
-
-
-
-
-
-
-
-
 
     @Test
     public void CreateSimplePdf_TEST() throws java.io.IOException, BadFieldValueException, TransformerException {
@@ -252,12 +214,14 @@ public class PdfboxTest {
         document.save(pdfFilePath);
         document.close() ;
 
-
-        document = PDDocument.load(new File(pdfFilePath));
-        //document = PDDocument.load(new File(Paths.get("src","test","resources","sample-FONT_NOT_EMBEDED.pdf").toFile().getAbsolutePath()));
-
-
         if (true) {
+            document = PDDocument.load(new File(pdfFilePath)) ;
+        } else {
+            // here i just load different pdf so creating of pdf in previous lines is useless
+            document = PDDocument.load(new File(Paths.get("src","test","resources","sample-FONT_NOT_EMBEDED.pdf").toFile().getAbsolutePath())) ;
+        }
+
+        if (false) {
             // debug print of fonts used (+ they are by save processed by subset method)
             PDFont fontUsed;
             for (PDPage pg : document.getPages()) {
@@ -276,8 +240,8 @@ public class PdfboxTest {
         boolean font2isTrueType = true ;
         if (font2isTrueType) {
             //font2 = PDType0Font.load(document, new File(fontPath));
-            Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
-            font2 = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), e) ;
+            //Encoding e = Encoding.getInstance(COSName.STANDARD_ENCODING);
+            font2 = PDTrueTypeFont.load(document, new FileInputStream(new File(fontPath)), new WinAnsiEncoding()) ;
         } else {
             font2 = PDType1Font.COURIER_BOLD ; // tady velke pdfbox logy
         }
@@ -308,35 +272,7 @@ public class PdfboxTest {
         LOG(testValidity(pdfFilePath,flavourId)) ;
         LOG(testValidity(convertedPdfFilePath,flavourId)) ;
 
-
-
     }
-
-
-//    @Test
-    public void TEST_SUBSET() {
-
-    }
-
-//    @Test
-    public void TEST_CHECK_FONTS() throws Exception {
-
-
-
-        /*
-        ascii 'a' - hex dec 97 61
-
-
-         */
-
-        PDFConvertorPDFBOX pdfbox = new PDFConvertorPDFBOX() ;
-
-        //pdfbox.fontInfo(Paths.get("src","test","resources","notvalid.pdf").toFile().getAbsolutePath());
-//        pdfbox.pokus(Paths.get("src","test","tmp","MYPDF.pdf").toFile().getAbsolutePath());
-        //pdfbox.pokus(Paths.get("src","test","resources","latex_for_beginner.pdf").toFile().getAbsolutePath());
-
-    }
-
 }
 
 
